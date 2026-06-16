@@ -1,36 +1,68 @@
 const express = require("express");
-const db = require("../db");
-
 const router = express.Router();
 
-// CREATE REQUEST
-router.post("/", async (req, res) => {
-  const { user_id, service_name, package_type, message } = req.body;
+// Temporary in-memory storage
+let requests = [];
 
-  try {
-    await db.query(
-      "INSERT INTO requests (user_id, service_name, package, message) VALUES ($1,$2,$3,$4)",
-      [user_id, service_name, package_type, message]
-    );
-
-    res.json({ message: "Request sent" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+// =======================
+// GET ALL REQUESTS
+// =======================
+router.get("/", (req, res) => {
+  res.json({
+    message: "Requests fetched successfully",
+    data: requests
+  });
 });
 
-// GET USER REQUESTS
-router.get("/:user_id", async (req, res) => {
-  try {
-    const result = await db.query(
-      "SELECT * FROM requests WHERE user_id=$1",
-      [req.params.user_id]
-    );
+// =======================
+// CREATE REQUEST
+// =======================
+router.post("/", (req, res) => {
+  const { name, service, message } = req.body;
 
-    res.json(result.rows);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  if (!name || !service) {
+    return res.status(400).json({
+      message: "Name and service are required"
+    });
   }
+
+  const newRequest = {
+    id: Date.now(),
+    name,
+    service,
+    message: message || "",
+    status: "pending",
+    createdAt: new Date()
+  };
+
+  requests.push(newRequest);
+
+  res.status(201).json({
+    message: "Request created successfully",
+    data: newRequest
+  });
+});
+
+// =======================
+// DELETE REQUEST
+// =======================
+router.delete("/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const index = requests.findIndex(r => r.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({
+      message: "Request not found"
+    });
+  }
+
+  const deleted = requests.splice(index, 1);
+
+  res.json({
+    message: "Request deleted",
+    data: deleted[0]
+  });
 });
 
 module.exports = router;
