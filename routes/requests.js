@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-// Temporary in-memory storage
+// Temporary in-memory storage (no database)
 let requests = [];
 
 // =======================
@@ -12,6 +12,23 @@ router.get("/", (req, res) => {
     message: "Requests fetched successfully",
     data: requests
   });
+});
+
+// =======================
+// GET SINGLE REQUEST
+// =======================
+router.get("/:id", (req, res) => {
+  const request = requests.find(
+    r => r.id === parseInt(req.params.id)
+  );
+
+  if (!request) {
+    return res.status(404).json({
+      message: "Request not found"
+    });
+  }
+
+  res.json(request);
 });
 
 // =======================
@@ -44,12 +61,34 @@ router.post("/", (req, res) => {
 });
 
 // =======================
+// UPDATE REQUEST STATUS
+// =======================
+router.put("/:id", (req, res) => {
+  const request = requests.find(
+    r => r.id === parseInt(req.params.id)
+  );
+
+  if (!request) {
+    return res.status(404).json({
+      message: "Request not found"
+    });
+  }
+
+  request.status = req.body.status || request.status;
+
+  res.json({
+    message: "Request updated successfully",
+    data: request
+  });
+});
+
+// =======================
 // DELETE REQUEST
 // =======================
 router.delete("/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-
-  const index = requests.findIndex(r => r.id === id);
+  const index = requests.findIndex(
+    r => r.id === parseInt(req.params.id)
+  );
 
   if (index === -1) {
     return res.status(404).json({
@@ -60,7 +99,7 @@ router.delete("/:id", (req, res) => {
   const deleted = requests.splice(index, 1);
 
   res.json({
-    message: "Request deleted",
+    message: "Request deleted successfully",
     data: deleted[0]
   });
 });
