@@ -1,140 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Service Website</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Service Platform</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f4f4f4;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+}
 
-    header {
-      background: #0d6efd;
-      color: white;
-      padding: 15px;
-      text-align: center;
-    }
+header {
+  background: #0d6efd;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
 
-    .container {
-      padding: 20px;
-    }
+nav {
+  display: flex;
+  justify-content: center;
+  background: #0b5ed7;
+  padding: 10px;
+}
 
-    .card {
-      background: white;
-      padding: 15px;
-      margin: 10px 0;
-      border-radius: 8px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
+nav button {
+  margin: 5px;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  background: white;
+  border-radius: 5px;
+}
 
-    button {
-      padding: 8px 12px;
-      border: none;
-      background: #0d6efd;
-      color: white;
-      cursor: pointer;
-      border-radius: 5px;
-    }
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
 
-    input {
-      padding: 8px;
-      margin: 5px 0;
-      width: 100%;
-    }
-  </style>
+.card {
+  background: white;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+}
+
+button.action {
+  background: #0d6efd;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>🚀 Service Website</h1>
-  <p>Welcome to your platform</p>
+  <h1>🚀 Service Platform</h1>
 </header>
+
+<nav>
+  <button onclick="show('services')">Services</button>
+  <button onclick="show('auth')">Login / Register</button>
+  <button onclick="show('request')">Request Service</button>
+</nav>
 
 <div class="container">
 
-  <!-- SERVICES -->
+<!-- SERVICES -->
+<div id="services" class="section">
   <div class="card">
-    <h2>Services</h2>
-    <button onclick="loadServices()">Load Services</button>
-    <div id="services"></div>
+    <h2>Our Services</h2>
+    <button class="action" onclick="loadServices()">Load Services</button>
+    <div id="serviceList"></div>
   </div>
+</div>
 
-  <!-- REGISTER -->
+<!-- AUTH -->
+<div id="auth" class="section hidden">
+
   <div class="card">
     <h2>Register</h2>
-    <input id="name" placeholder="Name" />
-    <input id="email" placeholder="Email" />
-    <input id="password" placeholder="Password" type="password" />
-    <button onclick="register()">Register</button>
-    <p id="registerMsg"></p>
+    <input id="name" placeholder="Name">
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+    <button class="action" onclick="register()">Register</button>
+    <p id="regMsg"></p>
   </div>
 
-  <!-- LOGIN -->
   <div class="card">
     <h2>Login</h2>
-    <input id="loginEmail" placeholder="Email" />
-    <input id="loginPassword" placeholder="Password" type="password" />
-    <button onclick="login()">Login</button>
+    <input id="loginEmail" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Password">
+    <button class="action" onclick="login()">Login</button>
     <p id="loginMsg"></p>
   </div>
 
 </div>
 
+<!-- REQUEST -->
+<div id="request" class="section hidden">
+  <div class="card">
+    <h2>Request Service</h2>
+    <input id="reqName" placeholder="Your Name">
+    <input id="reqService" placeholder="Service Needed">
+    <textarea id="reqMessage" placeholder="Message"></textarea>
+    <button class="action" onclick="sendRequest()">Send Request</button>
+    <p id="reqMsg"></p>
+  </div>
+</div>
+
+</div>
+
 <script>
-  // LOAD SERVICES
-  async function loadServices() {
-    const res = await fetch("/api/services");
-    const data = await res.json();
 
-    const container = document.getElementById("services");
-    container.innerHTML = "";
+// NAVIGATION
+function show(section) {
+  document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+  document.getElementById(section).classList.remove('hidden');
+}
 
-    data.data.forEach(service => {
-      container.innerHTML += `
-        <div class="card">
-          <h3>${service.name}</h3>
-          <p>${service.description}</p>
-          <b>KES ${service.price}</b>
-        </div>
-      `;
-    });
-  }
+// LOAD SERVICES
+async function loadServices() {
+  const res = await fetch('/api/services');
+  const data = await res.json();
 
-  // REGISTER
-  async function register() {
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value
-      })
-    });
+  let html = "";
+  data.data.forEach(s => {
+    html += `
+      <div class="card">
+        <h3>${s.name}</h3>
+        <p>${s.description}</p>
+        <b>KES ${s.price}</b>
+      </div>
+    `;
+  });
 
-    const data = await res.json();
-    document.getElementById("registerMsg").innerText = data.message;
-  }
+  document.getElementById("serviceList").innerHTML = html;
+}
 
-  // LOGIN
-  async function login() {
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: document.getElementById("loginEmail").value,
-        password: document.getElementById("loginPassword").value
-      })
-    });
+// REGISTER
+async function register() {
+  const res = await fetch('/api/auth/register', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      name: name.value,
+      email: email.value,
+      password: password.value
+    })
+  });
 
-    const data = await res.json();
-    document.getElementById("loginMsg").innerText = data.message;
-  }
+  const data = await res.json();
+  regMsg.innerText = data.message;
+}
+
+// LOGIN
+async function login() {
+  const res = await fetch('/api/auth/login', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      email: loginEmail.value,
+      password: loginPassword.value
+    })
+  });
+
+  const data = await res.json();
+  loginMsg.innerText = data.message;
+}
+
+// REQUEST SERVICE
+async function sendRequest() {
+  const res = await fetch('/api/requests', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      name: reqName.value,
+      service: reqService.value,
+      message: reqMessage.value
+    })
+  });
+
+  const data = await res.json();
+  reqMsg.innerText = data.message;
+}
+
 </script>
 
 </body>
