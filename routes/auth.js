@@ -1,80 +1,83 @@
 const express = require("express");
 const router = express.Router();
 
-const User = require("../models/User");
+
+// Temporary storage (no MongoDB / mongoose)
+let users = [];
+
 
 // =======================
-// SIGNUP / REGISTER
+// REGISTER
 // =======================
-router.post("/register", async (req, res) => {
-  try {
+router.post("/register", (req, res) => {
+
     const { name, email, password } = req.body;
 
-    const existingUser = await User.findOne({ email });
+
+    const existingUser = users.find(
+        user => user.email === email
+    );
+
 
     if (existingUser) {
-      return res.status(400).json({
-        message: "User already exists"
-      });
+        return res.status(400).json({
+            message: "User already exists"
+        });
     }
 
-    const newUser = new User({
-      name,
-      email,
-      password
-    });
 
-    await newUser.save();
+    const newUser = {
+        id: Date.now(),
+        name,
+        email,
+        password
+    };
+
+
+    users.push(newUser);
+
 
     res.status(201).json({
-      message: "Registration successful"
+        message: "Registration successful",
+        user: {
+            name,
+            email
+        }
     });
 
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: "Server error"
-    });
-  }
 });
+
 
 
 // =======================
 // LOGIN
 // =======================
-router.post("/login", async (req, res) => {
-  try {
+router.post("/login", (req, res) => {
+
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+
+    const user = users.find(
+        u => u.email === email && u.password === password
+    );
+
 
     if (!user) {
-      return res.status(400).json({
-        message: "User not found"
-      });
+        return res.status(400).json({
+            message: "Invalid email or password"
+        });
     }
 
-    if (password !== user.password) {
-      return res.status(400).json({
-        message: "Wrong password"
-      });
-    }
 
     res.json({
-      message: "Login successful",
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email
-      }
+        message: "Login successful",
+        user: {
+            id: user.id,
+            name: user.name,
+            email: user.email
+        }
     });
 
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: "Server error"
-    });
-  }
 });
 
 
