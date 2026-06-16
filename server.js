@@ -16,6 +16,11 @@ app.use(cors());
 app.use(express.json());
 
 // =======================
+// SERVE FRONTEND (IMPORTANT)
+// =======================
+app.use(express.static("public"));
+
+// =======================
 // API ROUTES
 // =======================
 app.use("/api/auth", authRoutes);
@@ -23,29 +28,28 @@ app.use("/api/services", serviceRoutes);
 app.use("/api/requests", requestRoutes);
 
 // =======================
-// HOME ROUTE
+// HOME PAGE (FRONTEND)
 // =======================
 app.get("/", (req, res) => {
-  res.send("🚀 Service Backend is Running Successfully!");
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // =======================
-// HEALTH CHECK ROUTE
+// HEALTH CHECK (FOR RENDER)
 // =======================
 app.get("/health", (req, res) => {
   res.json({
     status: "OK",
-    message: "Backend is live",
+    message: "Service Backend is Running Successfully!",
     time: new Date()
   });
 });
 
 // =======================
-// PORT CONFIG (RENDER FIX)
+// PORT (RENDER FIX)
 // =======================
 const PORT = process.env.PORT || 5000;
 
-// IMPORTANT: bind to 0.0.0.0 for Render
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
