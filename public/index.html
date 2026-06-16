@@ -8,7 +8,7 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: Arial;
   background: #f5f7fb;
 }
 
@@ -17,22 +17,6 @@ header {
   color: white;
   padding: 15px;
   text-align: center;
-}
-
-nav {
-  display: flex;
-  justify-content: center;
-  background: #0b5ed7;
-  padding: 10px;
-}
-
-nav button {
-  margin: 5px;
-  padding: 10px 15px;
-  border: none;
-  cursor: pointer;
-  background: white;
-  border-radius: 5px;
 }
 
 .container {
@@ -55,15 +39,16 @@ input, textarea {
   margin: 5px 0;
 }
 
-button.action {
-  background: #0d6efd;
-  color: white;
+button {
   padding: 10px;
   border: none;
-  border-radius: 5px;
+  background: #0d6efd;
+  color: white;
   cursor: pointer;
+  border-radius: 5px;
 }
 
+/* hidden sections */
 .hidden {
   display: none;
 }
@@ -76,73 +61,126 @@ button.action {
   <h1>🚀 Service Platform</h1>
 </header>
 
-<nav>
-  <button onclick="show('services')">Services</button>
-  <button onclick="show('auth')">Login / Register</button>
-  <button onclick="show('request')">Request Service</button>
-</nav>
-
 <div class="container">
 
-<!-- SERVICES -->
-<div id="services" class="section">
-  <div class="card">
-    <h2>Our Services</h2>
-    <button class="action" onclick="loadServices()">Load Services</button>
-    <div id="serviceList"></div>
-  </div>
-</div>
-
-<!-- AUTH -->
-<div id="auth" class="section hidden">
+<!-- LOGIN / REGISTER (FIRST SCREEN) -->
+<div id="authSection">
 
   <div class="card">
     <h2>Register</h2>
-    <input id="name" placeholder="Name">
-    <input id="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Password">
-    <button class="action" onclick="register()">Register</button>
+    <input id="regName" placeholder="Name">
+    <input id="regEmail" placeholder="Email">
+    <input id="regPassword" type="password" placeholder="Password">
+    <button onclick="register()">Register</button>
     <p id="regMsg"></p>
   </div>
 
   <div class="card">
     <h2>Login</h2>
-    <input id="loginEmail" placeholder="Email">
-    <input id="loginPassword" type="password" placeholder="Password">
-    <button class="action" onclick="login()">Login</button>
-    <p id="loginMsg"></p>
+    <input id="logEmail" placeholder="Email">
+    <input id="logPassword" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p id="logMsg"></p>
   </div>
 
 </div>
 
-<!-- REQUEST -->
-<div id="request" class="section hidden">
+<!-- MAIN APP (HIDDEN UNTIL LOGIN) -->
+<div id="appSection" class="hidden">
+
+  <div class="card">
+    <h2>Welcome</h2>
+    <p id="userInfo"></p>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div class="card">
+    <h2>Services</h2>
+    <button onclick="loadServices()">Load Services</button>
+    <div id="services"></div>
+  </div>
+
   <div class="card">
     <h2>Request Service</h2>
-    <input id="reqName" placeholder="Your Name">
-    <input id="reqService" placeholder="Service Needed">
-    <textarea id="reqMessage" placeholder="Message"></textarea>
-    <button class="action" onclick="sendRequest()">Send Request</button>
-    <p id="reqMsg"></p>
+    <input id="reqName" placeholder="Name">
+    <input id="reqService" placeholder="Service">
+    <textarea id="reqMsg" placeholder="Message"></textarea>
+    <button onclick="sendRequest()">Send</button>
+    <p id="reqResponse"></p>
   </div>
+
 </div>
 
 </div>
 
 <script>
 
-// NAVIGATION
-function show(section) {
-  document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
-  document.getElementById(section).classList.remove('hidden');
+let token = null;
+
+// REGISTER
+async function register() {
+  const res = await fetch("/api/auth/register", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      name: regName.value,
+      email: regEmail.value,
+      password: regPassword.value
+    })
+  });
+
+  const data = await res.json();
+  regMsg.innerText = data.message;
+}
+
+// LOGIN
+async function login() {
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      email: logEmail.value,
+      password: logPassword.value
+    })
+  });
+
+  const data = await res.json();
+
+  if (data.token) {
+    token = data.token;
+
+    // save session
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    showApp();
+  }
+
+  logMsg.innerText = data.message;
+}
+
+// SHOW APP AFTER LOGIN
+function showApp() {
+  authSection.classList.add("hidden");
+  appSection.classList.remove("hidden");
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  userInfo.innerText = `Logged in as ${user.name}`;
+}
+
+// LOGOUT
+function logout() {
+  localStorage.clear();
+  location.reload();
 }
 
 // LOAD SERVICES
 async function loadServices() {
-  const res = await fetch('/api/services');
+  const res = await fetch("/api/services");
   const data = await res.json();
 
   let html = "";
+
   data.data.forEach(s => {
     html += `
       <div class="card">
@@ -153,54 +191,29 @@ async function loadServices() {
     `;
   });
 
-  document.getElementById("serviceList").innerHTML = html;
+  services.innerHTML = html;
 }
 
-// REGISTER
-async function register() {
-  const res = await fetch('/api/auth/register', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      name: name.value,
-      email: email.value,
-      password: password.value
-    })
-  });
-
-  const data = await res.json();
-  regMsg.innerText = data.message;
-}
-
-// LOGIN
-async function login() {
-  const res = await fetch('/api/auth/login', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      email: loginEmail.value,
-      password: loginPassword.value
-    })
-  });
-
-  const data = await res.json();
-  loginMsg.innerText = data.message;
-}
-
-// REQUEST SERVICE
+// SEND REQUEST
 async function sendRequest() {
-  const res = await fetch('/api/requests', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+  const res = await fetch("/api/requests", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
     body: JSON.stringify({
       name: reqName.value,
       service: reqService.value,
-      message: reqMessage.value
+      message: reqMsg.value
     })
   });
 
   const data = await res.json();
-  reqMsg.innerText = data.message;
+  reqResponse.innerText = data.message;
+}
+
+// AUTO LOGIN IF EXISTS
+if (localStorage.getItem("token")) {
+  token = localStorage.getItem("token");
+  showApp();
 }
 
 </script>
