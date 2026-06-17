@@ -170,17 +170,21 @@ Create Account
 
 </form>
 
-<!-- SIGNUP -->
+<!-- SIGNUP (FIXED) -->
 <form id="signup" class="form">
 
 <h2>Create Account</h2>
 
-<input type="text" placeholder="Full Name" required>
-<input type="email" placeholder="Email" required>
-<input type="password" placeholder="Password" required>
-<input type="password" placeholder="Confirm Password" required>
+<input id="signupName" type="text" placeholder="Full Name" required>
+<input id="signupEmail" type="email" placeholder="Email" required>
+<input id="signupPassword" type="password" placeholder="Password" required>
+<input id="signupConfirm" type="password" placeholder="Confirm Password" required>
 
-<button class="submit" type="button">Sign Up</button>
+<button class="submit" type="button" onclick="signup()">
+Sign Up
+</button>
+
+<p id="signupMsg" style="text-align:center;margin-top:10px;"></p>
 
 <p style="text-align:center;margin-top:15px;font-size:14px;">
 Already have an account?
@@ -212,7 +216,6 @@ Back to Login
 <!-- ================= DASHBOARD ================= -->
 <div id="dashboard" class="dashboard hidden">
 
-<!-- SIDEBAR -->
 <div class="sidebar">
 
 <h2>🚀 Service</h2>
@@ -225,7 +228,6 @@ Back to Login
 
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
 <div class="card-box">
@@ -261,6 +263,7 @@ Back to Login
 
 <script>
 
+/* FORM SWITCH */
 function showForm(id){
 document.querySelectorAll(".form").forEach(f=>f.classList.remove("active"));
 document.getElementById(id).classList.add("active");
@@ -273,6 +276,37 @@ document.getElementById("dashboard").classList.remove("hidden");
 
 document.getElementById("welcomeUser").innerText =
 "Welcome to your dashboard 🚀";
+}
+
+/* FIXED SIGNUP FUNCTION */
+function signup(){
+
+let name=document.getElementById("signupName").value;
+let email=document.getElementById("signupEmail").value;
+let pass=document.getElementById("signupPassword").value;
+let confirm=document.getElementById("signupConfirm").value;
+let msg=document.getElementById("signupMsg");
+
+if(!name || !email || !pass || !confirm){
+msg.style.color="red";
+msg.innerText="Please fill all fields";
+return;
+}
+
+if(pass!==confirm){
+msg.style.color="red";
+msg.innerText="Passwords do not match";
+return;
+}
+
+msg.style.color="green";
+msg.innerText="Account created successfully 🚀";
+
+setTimeout(()=>{
+showForm("login");
+msg.innerText="";
+},1500);
+
 }
 
 /* LOGOUT */
