@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise System</title>
+<title>JoyTech Services</title>
 
 <style>
 *{
@@ -33,7 +33,6 @@ box-shadow:0 10px 25px rgba(0,0,0,0.3);
 h2{
 text-align:center;
 margin-bottom:15px;
-color:#111;
 }
 
 .form{
@@ -51,7 +50,6 @@ padding:10px;
 margin:8px 0;
 border:1px solid #ccc;
 border-radius:6px;
-outline:none;
 }
 
 button.submit{
@@ -61,7 +59,6 @@ color:white;
 border:none;
 border-radius:6px;
 cursor:pointer;
-margin-top:5px;
 }
 
 button.submit:hover{
@@ -170,15 +167,15 @@ Create Account
 
 </form>
 
-<!-- SIGNUP (FIXED) -->
+<!-- SIGNUP -->
 <form id="signup" class="form">
 
 <h2>Create Account</h2>
 
-<input id="signupName" type="text" placeholder="Full Name" required>
-<input id="signupEmail" type="email" placeholder="Email" required>
-<input id="signupPassword" type="password" placeholder="Password" required>
-<input id="signupConfirm" type="password" placeholder="Confirm Password" required>
+<input id="signupName" type="text" placeholder="Full Name">
+<input id="signupEmail" type="email" placeholder="Email">
+<input id="signupPassword" type="password" placeholder="Password">
+<input id="signupConfirm" type="password" placeholder="Confirm Password">
 
 <button class="submit" type="button" onclick="signup()">
 Sign Up
@@ -200,7 +197,7 @@ Login
 
 <h2>Reset Password</h2>
 
-<input type="email" placeholder="Enter email" required>
+<input type="email" placeholder="Enter email">
 
 <button class="submit" type="button">Send Reset Link</button>
 
@@ -216,9 +213,10 @@ Back to Login
 <!-- ================= DASHBOARD ================= -->
 <div id="dashboard" class="dashboard hidden">
 
+<!-- SIDEBAR -->
 <div class="sidebar">
 
-<h2>🚀 Service</h2>
+<h2>🚀 JoyTech</h2>
 
 <button onclick="showHome()">🏠 Home</button>
 <button onclick="loadServices()">🛠 Services</button>
@@ -228,17 +226,25 @@ Back to Login
 
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
 <div class="card-box">
 <h1>Welcome 👋</h1>
-<p id="welcomeUser">User</p>
+<p id="welcomeUser">JoyTech Digital Services</p>
+
+<hr style="margin:10px 0;">
+
+<p style="font-size:14px;">
+We offer professional ICT solutions including development,
+design, and government application support services.
+</p>
 </div>
 
 <div class="stats">
-<div class="stat"><h2>3+</h2><p>Services</p></div>
+<div class="stat"><h2>8+</h2><p>Services</p></div>
 <div class="stat"><h2>24/7</h2><p>Support</p></div>
-<div class="stat"><h2>100%</h2><p>Quality</p></div>
+<div class="stat"><h2>100%</h2><p>Reliable</p></div>
 </div>
 
 <div class="card-box">
@@ -257,13 +263,24 @@ Back to Login
 <p id="requestResult"></p>
 </div>
 
+<div class="card-box">
+<h2>Contact Information</h2>
+
+<p>📱 WhatsApp / Phone: <b>0745806435</b></p>
+<p>📧 Email: <b>jw42205769@gmail.com</b></p>
+
+<p style="margin-top:10px;font-size:13px;color:gray;">
+Available for ICT support, applications & design services.
+</p>
+</div>
+
 </div>
 
 </div>
 
 <script>
 
-/* FORM SWITCH */
+/* SWITCH FORMS */
 function showForm(id){
 document.querySelectorAll(".form").forEach(f=>f.classList.remove("active"));
 document.getElementById(id).classList.add("active");
@@ -273,12 +290,9 @@ document.getElementById(id).classList.add("active");
 function login(){
 document.getElementById("auth").style.display="none";
 document.getElementById("dashboard").classList.remove("hidden");
-
-document.getElementById("welcomeUser").innerText =
-"Welcome to your dashboard 🚀";
 }
 
-/* FIXED SIGNUP FUNCTION */
+/* SIGNUP */
 function signup(){
 
 let name=document.getElementById("signupName").value;
@@ -287,9 +301,9 @@ let pass=document.getElementById("signupPassword").value;
 let confirm=document.getElementById("signupConfirm").value;
 let msg=document.getElementById("signupMsg");
 
-if(!name || !email || !pass || !confirm){
+if(!name||!email||!pass||!confirm){
 msg.style.color="red";
-msg.innerText="Please fill all fields";
+msg.innerText="Fill all fields";
 return;
 }
 
@@ -316,10 +330,20 @@ document.getElementById("dashboard").classList.add("hidden");
 showForm("login");
 }
 
-/* DASHBOARD ACTIONS */
+/* SERVICES */
 function loadServices(){
-document.getElementById("serviceList").innerHTML=
-"✔ Web Development<br>✔ System Design<br>✔ IT Support";
+document.getElementById("serviceList").innerHTML=`
+<ul style="line-height:28px;padding-left:18px;">
+<li>💻 Web Development</li>
+<li>🧠 Software Development</li>
+<li>🎨 Graphic Design</li>
+<li>🏛 KRA PIN Application</li>
+<li>📊 KRA Returns Filing</li>
+<li>🎓 KUCCPS Application</li>
+<li>💰 HELB Application</li>
+<li>📄 CV Writing</li>
+</ul>
+`;
 }
 
 function showHome(){
@@ -327,12 +351,11 @@ document.getElementById("serviceList").innerHTML="Click Services";
 }
 
 function showRequests(){
-alert("Requests panel coming soon 🚀");
+alert("Requests feature coming soon 🚀");
 }
 
 function sendRequest(){
-document.getElementById("requestResult").innerText=
-"Request sent successfully 🚀";
+document.getElementById("requestResult").innerText="Request sent successfully 🚀";
 }
 
 </script>
