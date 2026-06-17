@@ -1,117 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Service Platform</title>
 
+
 <style>
 
 *{
-  box-sizing:border-box;
+box-sizing:border-box;
 }
 
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:Arial, sans-serif;
-  background:#f4f7fb;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+body{
+
+margin:0;
+height:100vh;
+
+font-family:Arial,sans-serif;
+
+background:#f4f7fb;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
 }
 
 
 .container{
-  width:90%;
-  max-width:500px;
+
+width:90%;
+max-width:450px;
+
 }
 
-
-header{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:#0d6efd;
-  color:white;
-  text-align:center;
-  padding:15px;
-}
 
 
 .card{
 
-  background:white;
-  padding:25px;
-  margin:20px 0;
+background:white;
 
-  border-radius:15px;
+padding:30px;
 
-  box-shadow:0 8px 25px rgba(0,0,0,0.15);
+border-radius:18px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.15);
+
+}
+
+
+
+h1,h2{
+
+text-align:center;
 
 }
 
 
-h2{
-  text-align:center;
+
+.tabs{
+
+display:flex;
+
+gap:10px;
+
+margin-bottom:20px;
+
+}
+
+
+
+.tabs button{
+
+flex:1;
+
 }
 
 
-input, textarea{
 
-  width:100%;
-  padding:12px;
-  margin:8px 0;
+input,textarea{
 
-  border:1px solid #ccc;
-  border-radius:8px;
+width:100%;
+
+padding:12px;
+
+margin:8px 0;
+
+border-radius:8px;
+
+border:1px solid #ccc;
 
 }
+
 
 
 button{
 
-  width:100%;
-  padding:12px;
+padding:12px;
 
-  background:#0d6efd;
-  color:white;
+border:none;
 
-  border:none;
-  border-radius:8px;
+border-radius:8px;
 
-  cursor:pointer;
+background:#0d6efd;
+
+color:white;
+
+cursor:pointer;
 
 }
+
 
 
 button:hover{
 
- background:#084298;
+background:#084298;
 
 }
+
 
 
 .hidden{
- display:none;
+
+display:none;
+
 }
 
 
-.service{
 
- background:#eef4ff;
- padding:15px;
- margin:10px 0;
- border-radius:10px;
+.dashboard{
+
+max-width:700px;
+
+width:90%;
+
+}
+
+
+
+.box{
+
+background:white;
+
+padding:20px;
+
+margin:15px 0;
+
+border-radius:15px;
+
+box-shadow:0 5px 20px #ddd;
 
 }
 
 
 .logout{
 
- background:#dc3545;
+background:#dc3545;
+
+}
+
+
+.service{
+
+background:#eef4ff;
+
+padding:15px;
+
+margin:10px;
+
+border-radius:10px;
 
 }
 
@@ -121,12 +183,8 @@ button:hover{
 </head>
 
 
+
 <body>
-
-
-<header>
-<h1>🚀 Service Platform</h1>
-</header>
 
 
 
@@ -134,44 +192,37 @@ button:hover{
 
 
 
-<!-- LOGIN / REGISTER FIRST -->
-
-<div id="authSection">
+<!-- AUTH PAGE -->
 
 
-
-<div class="card">
-
-<h2>Register</h2>
+<div id="authPage" class="card">
 
 
-<input id="regName" placeholder="Full Name">
-
-<input id="regEmail" placeholder="Email">
+<h1>🚀 Service Platform</h1>
 
 
-<input id="regPassword"
-type="password"
-placeholder="Password">
+<div class="tabs">
 
-
-<button onclick="register()">
-Create Account
+<button onclick="showLogin()">
+Login
 </button>
 
 
-<p id="regMsg"></p>
-
+<button onclick="showRegister()">
+Create Account
+</button>
 
 </div>
 
 
 
 
+<!-- LOGIN -->
 
-<div class="card">
+<div id="loginForm">
 
-<h2>Login</h2>
+
+<h2>Welcome Back</h2>
 
 
 <input id="logEmail"
@@ -183,8 +234,11 @@ type="password"
 placeholder="Password">
 
 
+
 <button onclick="login()">
+
 Login
+
 </button>
 
 
@@ -195,7 +249,48 @@ Login
 
 
 
+
+
+
+
+<!-- REGISTER -->
+
+
+<div id="registerForm" class="hidden">
+
+
+<h2>Create Account</h2>
+
+
+<input id="regName"
+placeholder="Full Name">
+
+
+<input id="regEmail"
+placeholder="Email">
+
+
+<input id="regPassword"
+type="password"
+placeholder="Password">
+
+
+<button onclick="register()">
+
+Register
+
+</button>
+
+
+<p id="regMsg"></p>
+
+
 </div>
+
+
+
+</div>
+
 
 
 
@@ -206,11 +301,13 @@ Login
 
 <!-- DASHBOARD -->
 
-<div id="dashboard" class="hidden">
+
+<div id="dashboard" class="hidden dashboard">
 
 
 
-<div class="card">
+<div class="box">
+
 
 <h2>Dashboard</h2>
 
@@ -232,7 +329,8 @@ Logout
 
 
 
-<div class="card">
+
+<div class="box">
 
 
 <h2>Services</h2>
@@ -240,7 +338,7 @@ Logout
 
 <button onclick="loadServices()">
 
-View Services
+Load Services
 
 </button>
 
@@ -255,22 +353,25 @@ View Services
 
 
 
-<div class="card">
+
+<div class="box">
 
 
 <h2>Request Service</h2>
 
 
 <input id="reqName"
-placeholder="Your Name">
+placeholder="Name">
 
 
 <input id="reqService"
-placeholder="Service Needed">
+placeholder="Service">
 
 
 <textarea id="reqMessage"
-placeholder="Message"></textarea>
+placeholder="Message">
+
+</textarea>
 
 
 <button onclick="sendRequest()">
@@ -287,12 +388,16 @@ Send Request
 
 
 
+
+</div>
+
+
+
+
+
 </div>
 
 
-
-
-</div>
 
 
 
@@ -301,7 +406,30 @@ Send Request
 <script>
 
 
-// REGISTER
+
+
+
+function showLogin(){
+
+loginForm.classList.remove("hidden");
+
+registerForm.classList.add("hidden");
+
+}
+
+
+
+function showRegister(){
+
+registerForm.classList.remove("hidden");
+
+loginForm.classList.add("hidden");
+
+}
+
+
+
+
 
 async function register(){
 
@@ -314,6 +442,7 @@ headers:{
 "Content-Type":"application/json"
 },
 
+
 body:JSON.stringify({
 
 name:regName.value,
@@ -324,8 +453,8 @@ password:regPassword.value
 
 })
 
-
 });
+
 
 
 const data=await res.json();
@@ -342,9 +471,9 @@ regMsg.innerText=data.message;
 
 
 
-// LOGIN
 
 async function login(){
+
 
 
 const res = await fetch("/api/auth/login",{
@@ -362,14 +491,15 @@ email:logEmail.value,
 
 password:logPassword.value
 
-
 })
+
 
 });
 
 
 
 const data=await res.json();
+
 
 
 
@@ -383,13 +513,10 @@ JSON.stringify(data.user)
 
 
 
-showDashboard();
+openDashboard();
 
 
-
-}
-
-else{
+}else{
 
 
 logMsg.innerText=data.message;
@@ -398,7 +525,6 @@ logMsg.innerText=data.message;
 }
 
 
-
 }
 
 
@@ -408,18 +534,13 @@ logMsg.innerText=data.message;
 
 
 
-function showDashboard(){
+
+function openDashboard(){
 
 
-document
-.getElementById("authSection")
-.classList.add("hidden");
+authPage.classList.add("hidden");
 
-
-document
-.getElementById("dashboard")
-.classList.remove("hidden");
-
+dashboard.classList.remove("hidden");
 
 
 let user =
@@ -431,9 +552,7 @@ welcome.innerText =
 "Welcome "+user.name;
 
 
-
 }
-
 
 
 
@@ -444,11 +563,9 @@ welcome.innerText =
 
 function logout(){
 
-
 localStorage.clear();
 
 location.reload();
-
 
 }
 
@@ -464,7 +581,6 @@ location.reload();
 async function loadServices(){
 
 
-
 const res =
 await fetch("/api/services");
 
@@ -473,23 +589,22 @@ const data =
 await res.json();
 
 
-
-let output="";
-
+let html="";
 
 
-data.data.forEach(service=>{
+
+data.data.forEach(s=>{
 
 
-output += `
+html += `
 
 <div class="service">
 
-<h3>${service.name}</h3>
+<h3>${s.name}</h3>
 
-<p>${service.description}</p>
+<p>${s.description}</p>
 
-<b>KES ${service.price}</b>
+<b>KES ${s.price}</b>
 
 </div>
 
@@ -500,8 +615,7 @@ output += `
 
 
 
-services.innerHTML=output;
-
+services.innerHTML=html;
 
 
 }
@@ -536,18 +650,18 @@ service:reqService.value,
 
 message:reqMessage.value
 
-
 })
+
 
 });
 
 
 
-const data=await res.json();
+const data =
+await res.json();
 
 
 requestMsg.innerText=data.message;
-
 
 
 }
@@ -558,14 +672,12 @@ requestMsg.innerText=data.message;
 
 
 
-// KEEP LOGIN AFTER REFRESH
-
 window.onload=function(){
 
 
 if(localStorage.getItem("user")){
 
-showDashboard();
+openDashboard();
 
 }
 
@@ -577,5 +689,7 @@ showDashboard();
 </script>
 
 
+
 </body>
+
 </html>
