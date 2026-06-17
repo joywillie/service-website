@@ -21,7 +21,7 @@ align-items:center;
 min-height:100vh;
 }
 
-/* AUTH CONTAINER */
+/* AUTH */
 .container{
 width:380px;
 background:white;
@@ -30,30 +30,16 @@ border-radius:15px;
 box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
-h2{text-align:center;margin-bottom:15px;}
-
-.tabs{
-display:flex;
+h2{
+text-align:center;
+margin-bottom:15px;
+color:#111;
 }
 
-.tabs button{
-flex:1;
-padding:10px;
-border:none;
-cursor:pointer;
-background:#eee;
-}
-
-.tabs button.active{
-background:#2563eb;
-color:white;
-}
-
-/* FORMS */
 .form{
 display:none;
 flex-direction:column;
-margin-top:15px;
+margin-top:10px;
 }
 
 .form.active{
@@ -65,6 +51,7 @@ padding:10px;
 margin:8px 0;
 border:1px solid #ccc;
 border-radius:6px;
+outline:none;
 }
 
 button.submit{
@@ -74,9 +61,14 @@ color:white;
 border:none;
 border-radius:6px;
 cursor:pointer;
+margin-top:5px;
 }
 
-/* DASHBOARD (NEW UPGRADE) */
+button.submit:hover{
+background:#1d4ed8;
+}
+
+/* DASHBOARD */
 .dashboard{
 width:95%;
 max-width:1100px;
@@ -140,7 +132,6 @@ text-align:center;
 display:none;
 }
 
-/* MOBILE */
 @media(max-width:700px){
 .dashboard{flex-direction:column;}
 .sidebar{width:100%;}
@@ -155,37 +146,65 @@ display:none;
 <!-- ================= AUTH ================= -->
 <div id="auth" class="container">
 
-<h2>Welcome</h2>
-
-<div class="tabs">
-<button class="active" onclick="showForm('login')">Login</button>
-<button onclick="showForm('signup')">Create</button>
-</div>
-
 <!-- LOGIN -->
 <form id="login" class="form active">
-<input type="email" placeholder="Email">
-<input type="password" placeholder="Password">
+
+<h2>Login</h2>
+
+<input type="email" placeholder="Email" required>
+<input type="password" placeholder="Password" required>
+
 <button class="submit" type="button" onclick="login()">Login</button>
+
 <p style="text-align:center;margin-top:10px;cursor:pointer;color:#2563eb"
-onclick="showForm('forgot')">Forgot Password?</p>
+onclick="showForm('forgot')">
+Forgot Password?
+</p>
+
+<p style="text-align:center;margin-top:15px;font-size:14px;">
+Don't have an account?
+<a style="color:#2563eb;cursor:pointer" onclick="showForm('signup')">
+Create Account
+</a>
+</p>
+
 </form>
 
 <!-- SIGNUP -->
 <form id="signup" class="form">
-<input type="text" placeholder="Full Name">
-<input type="email" placeholder="Email">
-<input type="password" placeholder="Password">
-<input type="password" placeholder="Confirm Password">
-<button class="submit" type="button">Create Account</button>
+
+<h2>Create Account</h2>
+
+<input type="text" placeholder="Full Name" required>
+<input type="email" placeholder="Email" required>
+<input type="password" placeholder="Password" required>
+<input type="password" placeholder="Confirm Password" required>
+
+<button class="submit" type="button">Sign Up</button>
+
+<p style="text-align:center;margin-top:15px;font-size:14px;">
+Already have an account?
+<a style="color:#2563eb;cursor:pointer" onclick="showForm('login')">
+Login
+</a>
+</p>
+
 </form>
 
 <!-- FORGOT -->
 <form id="forgot" class="form">
-<input type="email" placeholder="Enter email">
-<button class="submit" type="button">Reset Password</button>
-<p style="text-align:center;margin-top:10px;cursor:pointer;color:#2563eb"
-onclick="showForm('login')">Back</p>
+
+<h2>Reset Password</h2>
+
+<input type="email" placeholder="Enter email" required>
+
+<button class="submit" type="button">Send Reset Link</button>
+
+<p style="text-align:center;margin-top:15px;cursor:pointer;color:#2563eb"
+onclick="showForm('login')">
+Back to Login
+</p>
+
 </form>
 
 </div>
@@ -241,13 +260,10 @@ onclick="showForm('login')">Back</p>
 </div>
 
 <script>
+
 function showForm(id){
 document.querySelectorAll(".form").forEach(f=>f.classList.remove("active"));
 document.getElementById(id).classList.add("active");
-
-document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
-if(id==="login") document.querySelectorAll(".tabs button")[0].classList.add("active");
-if(id==="signup") document.querySelectorAll(".tabs button")[1].classList.add("active");
 }
 
 /* LOGIN */
@@ -255,32 +271,36 @@ function login(){
 document.getElementById("auth").style.display="none";
 document.getElementById("dashboard").classList.remove("hidden");
 
-document.getElementById("welcomeUser").innerText="Welcome to your dashboard 🚀";
+document.getElementById("welcomeUser").innerText =
+"Welcome to your dashboard 🚀";
 }
 
-/* DASHBOARD FUNCTIONS */
+/* LOGOUT */
 function logout(){
 document.getElementById("auth").style.display="block";
 document.getElementById("dashboard").classList.add("hidden");
+showForm("login");
 }
 
+/* DASHBOARD ACTIONS */
 function loadServices(){
 document.getElementById("serviceList").innerHTML=
 "✔ Web Development<br>✔ System Design<br>✔ IT Support";
-}
-
-function showRequests(){
-alert("Requests panel coming soon 🚀");
 }
 
 function showHome(){
 document.getElementById("serviceList").innerHTML="Click Services";
 }
 
+function showRequests(){
+alert("Requests panel coming soon 🚀");
+}
+
 function sendRequest(){
 document.getElementById("requestResult").innerText=
 "Request sent successfully 🚀";
 }
+
 </script>
 
 </body>
