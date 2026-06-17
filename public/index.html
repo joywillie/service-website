@@ -22,17 +22,11 @@ width:380px;
 background:white;
 padding:25px;
 border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
-h2{text-align:center;margin-bottom:15px;}
+h2{text-align:center;}
 
-.form{
-display:none;
-flex-direction:column;
-margin-top:10px;
-}
-
+.form{display:none;flex-direction:column;}
 .form.active{display:flex;}
 
 input{
@@ -54,42 +48,39 @@ cursor:pointer;
 /* DASHBOARD */
 .dashboard{
 width:95%;
-max-width:1100px;
+max-width:1000px;
 display:flex;
 gap:20px;
 }
 
 .sidebar{
-width:240px;
+width:220px;
 background:white;
-padding:25px;
-border-radius:20px;
-box-shadow:0 10px 25px #ddd;
+padding:20px;
+border-radius:15px;
 }
 
 .sidebar button{
-margin:10px 0;
 width:100%;
+margin:8px 0;
 padding:10px;
 border:none;
-border-radius:8px;
-cursor:pointer;
+border-radius:6px;
 background:#eef4ff;
+cursor:pointer;
 }
 
-.sidebar button.logout{background:#ffdddd;color:red;}
+.sidebar button.logout{background:#ffdddd;}
 
 .main{flex:1;}
 
-.card-box{
+.card{
 background:white;
-padding:25px;
-border-radius:20px;
-box-shadow:0 10px 25px #ddd;
-margin-bottom:20px;
+padding:20px;
+border-radius:15px;
+margin-bottom:15px;
 }
 
-.page{display:block;}
 .hidden{display:none;}
 
 /* WHATSAPP */
@@ -114,123 +105,66 @@ text-decoration:none;
 
 <body>
 
-<!-- ================= AUTH ================= -->
+<!-- AUTH -->
 <div id="auth" class="container">
 
-<!-- LOGIN -->
 <form id="login" class="form active">
-
 <h2>Login</h2>
-
 <input placeholder="Email">
 <input placeholder="Password">
-
 <button type="button" onclick="login()">Login</button>
-
-<p style="text-align:center;margin-top:10px;cursor:pointer;color:#2563eb"
-onclick="showForm('forgot')">Forgot Password?</p>
-
-<p style="text-align:center;margin-top:15px;font-size:14px;">
-Don't have account?
-<a style="color:#2563eb;cursor:pointer" onclick="showForm('signup')">
-Create Account
-</a>
-</p>
-
+<p style="color:#2563eb;cursor:pointer" onclick="showForm('signup')">Create Account</p>
 </form>
 
-<!-- SIGNUP -->
 <form id="signup" class="form">
-
-<h2>Create Account</h2>
-
-<input id="s1" placeholder="Full Name">
-<input id="s2" placeholder="Email">
-<input id="s3" placeholder="Password">
-<input id="s4" placeholder="Confirm Password">
-
+<h2>Signup</h2>
+<input id="name" placeholder="Name">
+<input id="email" placeholder="Email">
+<input id="pass" placeholder="Password">
+<input id="confirm" placeholder="Confirm Password">
 <button type="button" onclick="signup()">Sign Up</button>
-
-<p id="msg" style="text-align:center;margin-top:10px;"></p>
-
-<p style="text-align:center;margin-top:15px;font-size:14px;">
-Already have account?
-<a style="color:#2563eb;cursor:pointer" onclick="showForm('login')">
-Login
-</a>
-</p>
-
-</form>
-
-<!-- FORGOT -->
-<form id="forgot" class="form">
-
-<h2>Reset Password</h2>
-
-<input placeholder="Enter email">
-
-<button type="button">Send Reset Link</button>
-
-<p style="text-align:center;margin-top:15px;color:#2563eb;cursor:pointer"
-onclick="showForm('login')">
-Back to Login
-</p>
-
+<p id="msg"></p>
 </form>
 
 </div>
 
-<!-- ================= DASHBOARD ================= -->
+<!-- DASHBOARD -->
 <div id="dashboard" class="dashboard hidden">
 
 <div class="sidebar">
-
-<h2>🚀 JoyTech</h2>
+<h3>🚀 JoyTech</h3>
 
 <button onclick="showPage('home')">Home</button>
-<button onclick="showPage('services')">Services</button>
-<button onclick="showPage('requests')">Requests</button>
+<button onclick="showPage('request')">Request</button>
 <button onclick="showPage('admin')">Admin</button>
 
 <button class="logout" onclick="logout()">Logout</button>
-
 </div>
 
 <div class="main">
 
-<div id="homePage" class="page">
-<div class="card-box">
-<h1>Welcome 👋</h1>
-<p>JoyTech Services</p>
-</div>
-</div>
-
-<div id="servicesPage" class="page hidden">
-<div class="card-box">
-<h2>Services</h2>
-<div id="services"></div>
-<button onclick="loadServices()">Load Services</button>
-</div>
+<!-- HOME -->
+<div id="homePage" class="card">
+<h2>Welcome 👋</h2>
+<p>ICT Services System</p>
 </div>
 
-<div id="requestsPage" class="page hidden">
-<div class="card-box">
-<h2>Request Service</h2>
+<!-- REQUEST -->
+<div id="requestPage" class="card hidden">
+<h2>Send Request</h2>
 
-<input id="n" placeholder="Name">
-<input id="p" placeholder="Service">
-<input id="m" placeholder="Message">
+<input id="rname" placeholder="Name">
+<input id="rservice" placeholder="Service">
+<input id="rmsg" placeholder="Message">
 
-<button onclick="send()">Submit</button>
-<p id="r"></p>
+<button onclick="sendRequest()">Submit</button>
+<p id="result"></p>
 </div>
-</div>
 
-<div id="adminPage" class="page hidden">
-<div class="card-box">
+<!-- ADMIN -->
+<div id="adminPage" class="card hidden">
 <h2>Admin Dashboard</h2>
-<div id="adminBox">No requests</div>
-</div>
+<div id="adminBox">Loading...</div>
 </div>
 
 </div>
@@ -241,13 +175,8 @@ Back to Login
 
 <script>
 
-let requests=[];
-
-/* FORM SWITCH */
-function showForm(id){
-document.querySelectorAll(".form").forEach(f=>f.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-}
+const API = "YOUR_RENDER_URL"; 
+let requests = [];
 
 /* LOGIN */
 function login(){
@@ -258,54 +187,65 @@ document.getElementById("dashboard").classList.remove("hidden");
 /* SIGNUP */
 function signup(){
 let msg=document.getElementById("msg");
-msg.style.color="green";
-msg.innerText="Account created successfully 🚀";
-setTimeout(()=>showForm("login"),1500);
+msg.innerText="Account created 🚀";
+}
+
+/* PAGE SWITCH */
+function showPage(page){
+document.querySelectorAll(".card").forEach(c=>c.classList.add("hidden"));
+document.getElementById(page+"Page").classList.remove("hidden");
+
+if(page==="admin"){
+loadAdmin();
+}
+}
+
+/* SEND REQUEST (DATABASE) */
+function sendRequest(){
+
+let name=document.getElementById("rname").value;
+let service=document.getElementById("rservice").value;
+let message=document.getElementById("rmsg").value;
+
+if(!name||!service||!message){
+document.getElementById("result").innerText="Fill all fields ❌";
+return;
+}
+
+fetch(API+"/api/request",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({name,service,message})
+})
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("result").innerText="Saved 🚀";
+
+document.getElementById("rname").value="";
+document.getElementById("rservice").value="";
+document.getElementById("rmsg").value="";
+});
+}
+
+/* LOAD ADMIN */
+function loadAdmin(){
+
+fetch(API+"/api/requests")
+.then(res=>res.json())
+.then(data=>{
+
+document.getElementById("adminBox").innerHTML =
+data.map((r,i)=>
+`#${i+1} ${r.name} - ${r.service} - ${r.message}`
+).join("<br>");
+
+});
 }
 
 /* LOGOUT */
 function logout(){
 document.getElementById("auth").style.display="block";
 document.getElementById("dashboard").classList.add("hidden");
-}
-
-/* PAGE SWITCH */
-function showPage(p){
-document.querySelectorAll(".page").forEach(x=>x.classList.add("hidden"));
-document.getElementById(p+"Page").classList.remove("hidden");
-}
-
-/* SERVICES */
-function loadServices(){
-document.getElementById("services").innerHTML=
-"Web Dev<br>Software Dev<br>Graphic Design<br>KRA<br>HELB<br>CV Writing";
-}
-
-/* REQUEST */
-function send(){
-
-let name=n.value;
-let service=p.value;
-let msg=m.value;
-
-if(!name||!service||!msg){
-r.innerText="Fill all fields ❌";
-return;
-}
-
-requests.push({name,service,msg});
-
-r.innerText="Sent 🚀";
-
-renderAdmin();
-}
-
-/* ADMIN */
-function renderAdmin(){
-document.getElementById("adminBox").innerHTML=
-requests.map((x,i)=>
-`#${i+1} ${x.name} - ${x.service} - ${x.msg}`
-).join("<br>");
 }
 
 </script>
