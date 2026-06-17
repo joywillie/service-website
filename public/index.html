@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Service Platform</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
 <style>
@@ -21,21 +19,22 @@ body{
 margin:0;
 height:100vh;
 
-font-family:Arial,sans-serif;
+font-family:Arial, Helvetica, sans-serif;
 
-background:#f4f7fb;
+background:linear-gradient(135deg,#0d6efd,#6f42c1);
 
 display:flex;
-align-items:center;
 justify-content:center;
+align-items:center;
 
 }
+
 
 
 .container{
 
 width:90%;
-max-width:450px;
+max-width:420px;
 
 }
 
@@ -45,17 +44,27 @@ max-width:450px;
 
 background:white;
 
-padding:30px;
+padding:35px;
 
-border-radius:18px;
+border-radius:20px;
 
-box-shadow:0 10px 30px rgba(0,0,0,.15);
+box-shadow:0 15px 40px rgba(0,0,0,.25);
 
 }
 
 
 
-h1,h2{
+.logo{
+
+text-align:center;
+
+font-size:35px;
+
+}
+
+
+
+h2{
 
 text-align:center;
 
@@ -63,37 +72,17 @@ text-align:center;
 
 
 
-.tabs{
-
-display:flex;
-
-gap:10px;
-
-margin-bottom:20px;
-
-}
-
-
-
-.tabs button{
-
-flex:1;
-
-}
-
-
-
-input,textarea{
+input{
 
 width:100%;
 
-padding:12px;
+padding:13px;
 
-margin:8px 0;
+margin:10px 0;
 
-border-radius:8px;
+border-radius:10px;
 
-border:1px solid #ccc;
+border:1px solid #ddd;
 
 }
 
@@ -101,15 +90,19 @@ border:1px solid #ccc;
 
 button{
 
-padding:12px;
+width:100%;
+
+padding:13px;
 
 border:none;
 
-border-radius:8px;
+border-radius:10px;
 
 background:#0d6efd;
 
 color:white;
+
+font-size:16px;
 
 cursor:pointer;
 
@@ -125,6 +118,28 @@ background:#084298;
 
 
 
+.links{
+
+text-align:center;
+
+margin-top:15px;
+
+}
+
+
+
+a{
+
+color:#0d6efd;
+
+cursor:pointer;
+
+text-decoration:none;
+
+}
+
+
+
 .hidden{
 
 display:none;
@@ -133,29 +148,28 @@ display:none;
 
 
 
+
+
 .dashboard{
 
+width:90%;
 max-width:700px;
 
-width:90%;
-
 }
-
 
 
 .box{
 
 background:white;
 
-padding:20px;
+padding:25px;
 
-margin:15px 0;
+margin:15px;
 
-border-radius:15px;
-
-box-shadow:0 5px 20px #ddd;
+border-radius:18px;
 
 }
+
 
 
 .logout{
@@ -165,13 +179,14 @@ background:#dc3545;
 }
 
 
+
 .service{
 
 background:#eef4ff;
 
 padding:15px;
 
-margin:10px;
+margin:10px 0;
 
 border-radius:10px;
 
@@ -180,59 +195,45 @@ border-radius:10px;
 
 </style>
 
+
 </head>
 
 
-
 <body>
-
 
 
 <div class="container">
 
 
 
-<!-- AUTH PAGE -->
+<!-- AUTH -->
+
+<div id="auth" class="card">
 
 
-<div id="authPage" class="card">
-
-
-<h1>🚀 Service Platform</h1>
-
-
-<div class="tabs">
-
-<button onclick="showLogin()">
-Login
-</button>
-
-
-<button onclick="showRegister()">
-Create Account
-</button>
-
+<div class="logo">
+🚀
 </div>
 
+
+<h2 id="title">
+Login
+</h2>
 
 
 
 <!-- LOGIN -->
 
-<div id="loginForm">
+<div id="login">
 
 
-<h2>Welcome Back</h2>
-
-
-<input id="logEmail"
+<input id="email"
 placeholder="Email">
 
 
-<input id="logPassword"
+<input id="password"
 type="password"
 placeholder="Password">
-
 
 
 <button onclick="login()">
@@ -242,11 +243,30 @@ Login
 </button>
 
 
-<p id="logMsg"></p>
+
+<div class="links">
+
+<a onclick="forgot()">
+Forgot Password?
+</a>
+
+<br><br>
+
+
+Don't have an account?
+
+<a onclick="showRegister()">
+Create Account
+</a>
 
 
 </div>
 
+
+<p id="msg"></p>
+
+
+</div>
 
 
 
@@ -255,34 +275,43 @@ Login
 
 <!-- REGISTER -->
 
-
-<div id="registerForm" class="hidden">
-
-
-<h2>Create Account</h2>
+<div id="register" class="hidden">
 
 
-<input id="regName"
+<input id="name"
 placeholder="Full Name">
 
 
-<input id="regEmail"
+<input id="rEmail"
 placeholder="Email">
 
 
-<input id="regPassword"
+<input id="rPassword"
 type="password"
 placeholder="Password">
 
 
 <button onclick="register()">
 
-Register
+Create Account
 
 </button>
 
 
-<p id="regMsg"></p>
+
+<div class="links">
+
+Already have account?
+
+<a onclick="showLogin()">
+Login
+</a>
+
+
+</div>
+
+
+<p id="rmsg"></p>
 
 
 </div>
@@ -290,7 +319,6 @@ Register
 
 
 </div>
-
 
 
 
@@ -305,11 +333,11 @@ Register
 <div id="dashboard" class="hidden dashboard">
 
 
-
 <div class="box">
 
-
-<h2>Dashboard</h2>
+<h2>
+Dashboard
+</h2>
 
 
 <p id="welcome"></p>
@@ -328,17 +356,17 @@ Logout
 
 
 
-
-
 <div class="box">
 
 
-<h2>Services</h2>
+<h2>
+Services
+</h2>
 
 
 <button onclick="loadServices()">
 
-Load Services
+View Services
 
 </button>
 
@@ -351,13 +379,12 @@ Load Services
 
 
 
-
-
-
 <div class="box">
 
 
-<h2>Request Service</h2>
+<h2>
+Request Service
+</h2>
 
 
 <input id="reqName"
@@ -368,10 +395,8 @@ placeholder="Name">
 placeholder="Service">
 
 
-<textarea id="reqMessage"
+<input id="reqMessage"
 placeholder="Message">
-
-</textarea>
 
 
 <button onclick="sendRequest()">
@@ -381,7 +406,10 @@ Send Request
 </button>
 
 
-<p id="requestMsg"></p>
+<p id="request"></p>
+
+
+</div>
 
 
 </div>
@@ -389,15 +417,9 @@ Send Request
 
 
 
-</div>
-
-
-
 
 
 </div>
-
-
 
 
 
@@ -407,25 +429,33 @@ Send Request
 
 
 
+function showRegister(){
+
+login.classList.add("hidden");
+
+register.classList.remove("hidden");
+
+title.innerText="Create Account";
+
+
+}
+
+
+
 
 
 function showLogin(){
 
-loginForm.classList.remove("hidden");
+register.classList.add("hidden");
 
-registerForm.classList.add("hidden");
+login.classList.remove("hidden");
 
-}
+title.innerText="Login";
 
-
-
-function showRegister(){
-
-registerForm.classList.remove("hidden");
-
-loginForm.classList.add("hidden");
 
 }
+
+
 
 
 
@@ -434,7 +464,8 @@ loginForm.classList.add("hidden");
 async function register(){
 
 
-const res = await fetch("/api/auth/register",{
+let res =
+await fetch("/api/auth/register",{
 
 method:"POST",
 
@@ -445,25 +476,28 @@ headers:{
 
 body:JSON.stringify({
 
-name:regName.value,
+name:name.value,
 
-email:regEmail.value,
+email:rEmail.value,
 
-password:regPassword.value
+password:rPassword.value
 
 })
+
 
 });
 
 
 
-const data=await res.json();
+let data =
+await res.json();
 
 
-regMsg.innerText=data.message;
+rmsg.innerText=data.message;
 
 
 }
+
 
 
 
@@ -476,7 +510,8 @@ async function login(){
 
 
 
-const res = await fetch("/api/auth/login",{
+let res =
+await fetch("/api/auth/login",{
 
 method:"POST",
 
@@ -487,19 +522,19 @@ headers:{
 
 body:JSON.stringify({
 
-email:logEmail.value,
+email:email.value,
 
-password:logPassword.value
+password:password.value
 
 })
-
 
 });
 
 
 
-const data=await res.json();
 
+let data =
+await res.json();
 
 
 
@@ -519,7 +554,7 @@ openDashboard();
 }else{
 
 
-logMsg.innerText=data.message;
+msg.innerText=data.message;
 
 
 }
@@ -538,9 +573,11 @@ logMsg.innerText=data.message;
 function openDashboard(){
 
 
-authPage.classList.add("hidden");
+auth.classList.add("hidden");
+
 
 dashboard.classList.remove("hidden");
+
 
 
 let user =
@@ -553,8 +590,6 @@ welcome.innerText =
 
 
 }
-
-
 
 
 
@@ -575,28 +610,39 @@ location.reload();
 
 
 
+function forgot(){
+
+alert(
+"Password reset feature will be connected to email service."
+);
+
+}
+
+
+
+
 
 
 
 async function loadServices(){
 
 
-const res =
+let res =
 await fetch("/api/services");
 
 
-const data =
+let data =
 await res.json();
+
 
 
 let html="";
 
 
-
 data.data.forEach(s=>{
 
 
-html += `
+html+=`
 
 <div class="service">
 
@@ -614,7 +660,6 @@ html += `
 });
 
 
-
 services.innerHTML=html;
 
 
@@ -628,11 +673,10 @@ services.innerHTML=html;
 
 
 
-
 async function sendRequest(){
 
 
-const res =
+let res =
 await fetch("/api/requests",{
 
 method:"POST",
@@ -652,16 +696,15 @@ message:reqMessage.value
 
 })
 
-
 });
 
 
 
-const data =
+let data =
 await res.json();
 
 
-requestMsg.innerText=data.message;
+request.innerText=data.message;
 
 
 }
@@ -672,7 +715,8 @@ requestMsg.innerText=data.message;
 
 
 
-window.onload=function(){
+
+window.onload=()=>{
 
 
 if(localStorage.getItem("user")){
@@ -685,11 +729,8 @@ openDashboard();
 }
 
 
-
 </script>
 
 
-
 </body>
-
 </html>
