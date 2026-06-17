@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 
-<title>Service Platform</title>
-
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Service Platform</title>
 
 <style>
 
@@ -13,28 +14,26 @@
 box-sizing:border-box;
 }
 
-
 body{
 
 margin:0;
 height:100vh;
 
-font-family:Arial, Helvetica, sans-serif;
+font-family:Arial,sans-serif;
 
 background:linear-gradient(135deg,#0d6efd,#6f42c1);
 
 display:flex;
-justify-content:center;
 align-items:center;
+justify-content:center;
 
 }
-
 
 
 .container{
 
 width:90%;
-max-width:420px;
+max-width:430px;
 
 }
 
@@ -44,11 +43,11 @@ max-width:420px;
 
 background:white;
 
-padding:35px;
+padding:30px;
 
 border-radius:20px;
 
-box-shadow:0 15px 40px rgba(0,0,0,.25);
+box-shadow:0 15px 35px rgba(0,0,0,.25);
 
 }
 
@@ -57,8 +56,7 @@ box-shadow:0 15px 40px rgba(0,0,0,.25);
 .logo{
 
 text-align:center;
-
-font-size:35px;
+font-size:45px;
 
 }
 
@@ -76,13 +74,13 @@ input{
 
 width:100%;
 
-padding:13px;
+padding:12px;
 
-margin:10px 0;
+margin:8px 0;
 
 border-radius:10px;
 
-border:1px solid #ddd;
+border:1px solid #ccc;
 
 }
 
@@ -92,7 +90,7 @@ button{
 
 width:100%;
 
-padding:13px;
+padding:12px;
 
 border:none;
 
@@ -101,8 +99,6 @@ border-radius:10px;
 background:#0d6efd;
 
 color:white;
-
-font-size:16px;
 
 cursor:pointer;
 
@@ -134,7 +130,7 @@ color:#0d6efd;
 
 cursor:pointer;
 
-text-decoration:none;
+font-weight:bold;
 
 }
 
@@ -148,8 +144,6 @@ display:none;
 
 
 
-
-
 .dashboard{
 
 width:90%;
@@ -158,11 +152,12 @@ max-width:700px;
 }
 
 
+
 .box{
 
 background:white;
 
-padding:25px;
+padding:20px;
 
 margin:15px;
 
@@ -179,27 +174,27 @@ background:#dc3545;
 }
 
 
-
 .service{
 
 background:#eef4ff;
 
 padding:15px;
 
-margin:10px 0;
-
 border-radius:10px;
+
+margin:10px 0;
 
 }
 
 
 </style>
 
-
 </head>
 
 
+
 <body>
+
 
 
 <div class="container">
@@ -208,7 +203,7 @@ border-radius:10px;
 
 <!-- AUTH -->
 
-<div id="auth" class="card">
+<div id="authCard" class="card">
 
 
 <div class="logo">
@@ -216,7 +211,7 @@ border-radius:10px;
 </div>
 
 
-<h2 id="title">
+<h2 id="formTitle">
 Login
 </h2>
 
@@ -224,14 +219,14 @@ Login
 
 <!-- LOGIN -->
 
-<div id="login">
+<div id="loginForm">
 
 
-<input id="email"
+<input id="loginEmail"
 placeholder="Email">
 
 
-<input id="password"
+<input id="loginPassword"
 type="password"
 placeholder="Password">
 
@@ -243,19 +238,18 @@ Login
 </button>
 
 
-
 <div class="links">
 
-<a onclick="forgot()">
+<a href="#" onclick="forgotPassword()">
 Forgot Password?
 </a>
 
 <br><br>
 
 
-Don't have an account?
+Don't have account?
 
-<a onclick="showRegister()">
+<a href="#" onclick="showRegister();return false;">
 Create Account
 </a>
 
@@ -263,10 +257,13 @@ Create Account
 </div>
 
 
-<p id="msg"></p>
+<p id="loginMessage"></p>
 
 
 </div>
+
+
+
 
 
 
@@ -275,23 +272,24 @@ Create Account
 
 <!-- REGISTER -->
 
-<div id="register" class="hidden">
+
+<div id="registerForm" class="hidden">
 
 
-<input id="name"
+<input id="registerName"
 placeholder="Full Name">
 
 
-<input id="rEmail"
+<input id="registerEmail"
 placeholder="Email">
 
 
-<input id="rPassword"
+<input id="registerPassword"
 type="password"
 placeholder="Password">
 
 
-<button onclick="register()">
+<button onclick="registerUser()">
 
 Create Account
 
@@ -303,7 +301,7 @@ Create Account
 
 Already have account?
 
-<a onclick="showLogin()">
+<a href="#" onclick="showLogin();return false;">
 Login
 </a>
 
@@ -311,7 +309,7 @@ Login
 </div>
 
 
-<p id="rmsg"></p>
+<p id="registerMessage"></p>
 
 
 </div>
@@ -330,17 +328,19 @@ Login
 <!-- DASHBOARD -->
 
 
-<div id="dashboard" class="hidden dashboard">
+<div id="dashboard" class="dashboard hidden">
+
 
 
 <div class="box">
+
 
 <h2>
 Dashboard
 </h2>
 
 
-<p id="welcome"></p>
+<p id="welcomeUser"></p>
 
 
 <button class="logout"
@@ -352,6 +352,7 @@ Logout
 
 
 </div>
+
 
 
 
@@ -371,10 +372,12 @@ View Services
 </button>
 
 
-<div id="services"></div>
+<div id="serviceList"></div>
 
 
 </div>
+
+
 
 
 
@@ -387,15 +390,15 @@ Request Service
 </h2>
 
 
-<input id="reqName"
+<input id="requestName"
 placeholder="Name">
 
 
-<input id="reqService"
+<input id="requestService"
 placeholder="Service">
 
 
-<input id="reqMessage"
+<input id="requestMessage"
 placeholder="Message">
 
 
@@ -406,20 +409,24 @@ Send Request
 </button>
 
 
-<p id="request"></p>
+<p id="requestResult"></p>
 
 
 </div>
 
 
-</div>
-
-
-
-
-
 
 </div>
+
+
+
+
+
+
+
+
+</div>
+
 
 
 
@@ -431,14 +438,25 @@ Send Request
 
 function showRegister(){
 
-login.classList.add("hidden");
 
-register.classList.remove("hidden");
+document
+.getElementById("loginForm")
+.classList.add("hidden");
 
-title.innerText="Create Account";
+
+document
+.getElementById("registerForm")
+.classList.remove("hidden");
+
+
+document
+.getElementById("formTitle")
+.innerText="Create Account";
 
 
 }
+
+
 
 
 
@@ -446,11 +464,20 @@ title.innerText="Create Account";
 
 function showLogin(){
 
-register.classList.add("hidden");
 
-login.classList.remove("hidden");
+document
+.getElementById("registerForm")
+.classList.add("hidden");
 
-title.innerText="Login";
+
+document
+.getElementById("loginForm")
+.classList.remove("hidden");
+
+
+document
+.getElementById("formTitle")
+.innerText="Login";
 
 
 }
@@ -461,10 +488,11 @@ title.innerText="Login";
 
 
 
-async function register(){
+
+async function registerUser(){
 
 
-let res =
+const res =
 await fetch("/api/auth/register",{
 
 method:"POST",
@@ -476,24 +504,31 @@ headers:{
 
 body:JSON.stringify({
 
-name:name.value,
+name:
+document.getElementById("registerName").value,
 
-email:rEmail.value,
 
-password:rPassword.value
+email:
+document.getElementById("registerEmail").value,
+
+
+password:
+document.getElementById("registerPassword").value
+
 
 })
-
 
 });
 
 
 
-let data =
+const data =
 await res.json();
 
 
-rmsg.innerText=data.message;
+
+document.getElementById("registerMessage")
+.innerText=data.message;
 
 
 }
@@ -510,7 +545,7 @@ async function login(){
 
 
 
-let res =
+const res =
 await fetch("/api/auth/login",{
 
 method:"POST",
@@ -522,19 +557,24 @@ headers:{
 
 body:JSON.stringify({
 
-email:email.value,
+email:
+document.getElementById("loginEmail").value,
 
-password:password.value
+
+password:
+document.getElementById("loginPassword").value
+
 
 })
+
 
 });
 
 
 
-
-let data =
+const data =
 await res.json();
+
 
 
 
@@ -551,17 +591,19 @@ JSON.stringify(data.user)
 openDashboard();
 
 
-}else{
+}
+
+else{
 
 
-msg.innerText=data.message;
+document.getElementById("loginMessage")
+.innerText=data.message;
 
 
 }
 
 
 }
-
 
 
 
@@ -573,10 +615,15 @@ msg.innerText=data.message;
 function openDashboard(){
 
 
-auth.classList.add("hidden");
+document
+.getElementById("authCard")
+.classList.add("hidden");
 
 
-dashboard.classList.remove("hidden");
+
+document
+.getElementById("dashboard")
+.classList.remove("hidden");
 
 
 
@@ -585,11 +632,13 @@ JSON.parse(localStorage.getItem("user"));
 
 
 
-welcome.innerText =
+document.getElementById("welcomeUser")
+.innerText =
 "Welcome "+user.name;
 
 
 }
+
 
 
 
@@ -610,10 +659,10 @@ location.reload();
 
 
 
-function forgot(){
+function forgotPassword(){
 
 alert(
-"Password reset feature will be connected to email service."
+"Password reset will be connected to email verification."
 );
 
 }
@@ -624,47 +673,47 @@ alert(
 
 
 
+
 async function loadServices(){
 
 
-let res =
+const res =
 await fetch("/api/services");
 
 
-let data =
+const data =
 await res.json();
-
 
 
 let html="";
 
 
-data.data.forEach(s=>{
+
+data.data.forEach(item=>{
 
 
 html+=`
 
 <div class="service">
 
-<h3>${s.name}</h3>
+<h3>${item.name}</h3>
 
-<p>${s.description}</p>
+<p>${item.description}</p>
 
-<b>KES ${s.price}</b>
+<b>KES ${item.price}</b>
 
 </div>
 
 `;
 
-
 });
 
 
-services.innerHTML=html;
+document.getElementById("serviceList")
+.innerHTML=html;
 
 
 }
-
 
 
 
@@ -676,7 +725,7 @@ services.innerHTML=html;
 async function sendRequest(){
 
 
-let res =
+const res =
 await fetch("/api/requests",{
 
 method:"POST",
@@ -688,11 +737,17 @@ headers:{
 
 body:JSON.stringify({
 
-name:reqName.value,
+name:
+requestName.value,
 
-service:reqService.value,
 
-message:reqMessage.value
+service:
+requestService.value,
+
+
+message:
+requestMessage.value
+
 
 })
 
@@ -700,11 +755,12 @@ message:reqMessage.value
 
 
 
-let data =
+const data =
 await res.json();
 
 
-request.innerText=data.message;
+
+requestResult.innerText=data.message;
 
 
 }
@@ -716,7 +772,7 @@ request.innerText=data.message;
 
 
 
-window.onload=()=>{
+window.onload=function(){
 
 
 if(localStorage.getItem("user")){
@@ -733,4 +789,5 @@ openDashboard();
 
 
 </body>
+
 </html>
