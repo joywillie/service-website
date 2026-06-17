@@ -30,10 +30,7 @@ border-radius:15px;
 box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
-h2{
-text-align:center;
-margin-bottom:15px;
-}
+h2{text-align:center;margin-bottom:15px;}
 
 .form{
 display:none;
@@ -41,9 +38,7 @@ flex-direction:column;
 margin-top:10px;
 }
 
-.form.active{
-display:flex;
-}
+.form.active{display:flex;}
 
 input{
 padding:10px;
@@ -125,9 +120,9 @@ border-radius:15px;
 text-align:center;
 }
 
-.hidden{
-display:none;
-}
+/* MULTI PAGE */
+.page{display:block;}
+.hidden{display:none;}
 
 @media(max-width:700px){
 .dashboard{flex-direction:column;}
@@ -148,21 +143,17 @@ display:none;
 
 <h2>Login</h2>
 
-<input type="email" placeholder="Email" required>
-<input type="password" placeholder="Password" required>
+<input type="email" placeholder="Email">
+<input type="password" placeholder="Password">
 
 <button class="submit" type="button" onclick="login()">Login</button>
 
-<p style="text-align:center;margin-top:10px;cursor:pointer;color:#2563eb"
-onclick="showForm('forgot')">
-Forgot Password?
-</p>
+<p style="text-align:center;margin-top:10px;color:#2563eb;cursor:pointer"
+onclick="showForm('forgot')">Forgot Password?</p>
 
 <p style="text-align:center;margin-top:15px;font-size:14px;">
 Don't have an account?
-<a style="color:#2563eb;cursor:pointer" onclick="showForm('signup')">
-Create Account
-</a>
+<a style="color:#2563eb;cursor:pointer" onclick="showForm('signup')">Create Account</a>
 </p>
 
 </form>
@@ -172,22 +163,18 @@ Create Account
 
 <h2>Create Account</h2>
 
-<input id="signupName" type="text" placeholder="Full Name">
-<input id="signupEmail" type="email" placeholder="Email">
-<input id="signupPassword" type="password" placeholder="Password">
-<input id="signupConfirm" type="password" placeholder="Confirm Password">
+<input id="signupName" placeholder="Full Name">
+<input id="signupEmail" placeholder="Email">
+<input id="signupPassword" placeholder="Password">
+<input id="signupConfirm" placeholder="Confirm Password">
 
-<button class="submit" type="button" onclick="signup()">
-Sign Up
-</button>
+<button class="submit" type="button" onclick="signup()">Sign Up</button>
 
 <p id="signupMsg" style="text-align:center;margin-top:10px;"></p>
 
 <p style="text-align:center;margin-top:15px;font-size:14px;">
-Already have an account?
-<a style="color:#2563eb;cursor:pointer" onclick="showForm('login')">
-Login
-</a>
+Already have account?
+<a style="color:#2563eb;cursor:pointer" onclick="showForm('login')">Login</a>
 </p>
 
 </form>
@@ -197,14 +184,12 @@ Login
 
 <h2>Reset Password</h2>
 
-<input type="email" placeholder="Enter email">
+<input placeholder="Enter email">
 
 <button class="submit" type="button">Send Reset Link</button>
 
-<p style="text-align:center;margin-top:15px;cursor:pointer;color:#2563eb"
-onclick="showForm('login')">
-Back to Login
-</p>
+<p style="text-align:center;margin-top:15px;color:#2563eb;cursor:pointer"
+onclick="showForm('login')">Back</p>
 
 </form>
 
@@ -218,9 +203,10 @@ Back to Login
 
 <h2>🚀 JoyTech</h2>
 
-<button onclick="showHome()">🏠 Home</button>
-<button onclick="loadServices()">🛠 Services</button>
-<button onclick="showRequests()">📩 Requests</button>
+<button onclick="showPage('home')">🏠 Home</button>
+<button onclick="showPage('services')">🛠 Services</button>
+<button onclick="showPage('requests')">📩 Requests</button>
+<button onclick="showPage('contacts')">📞 Contacts</button>
 
 <button class="logout" onclick="logout()">Logout</button>
 
@@ -229,16 +215,12 @@ Back to Login
 <!-- MAIN -->
 <div class="main">
 
+<!-- HOME -->
+<div id="homePage" class="page">
+
 <div class="card-box">
 <h1>Welcome 👋</h1>
-<p id="welcomeUser">JoyTech Digital Services</p>
-
-<hr style="margin:10px 0;">
-
-<p style="font-size:14px;">
-We offer professional ICT solutions including development,
-design, and government application support services.
-</p>
+<p>JoyTech ICT Services Dashboard</p>
 </div>
 
 <div class="stats">
@@ -247,10 +229,23 @@ design, and government application support services.
 <div class="stat"><h2>100%</h2><p>Reliable</p></div>
 </div>
 
-<div class="card-box">
-<h2>Available Services</h2>
-<div id="serviceList">Click Services</div>
 </div>
+
+<!-- SERVICES -->
+<div id="servicesPage" class="page hidden">
+
+<div class="card-box">
+<h2>Services</h2>
+
+<div id="serviceList">Click load services</div>
+
+<button onclick="loadServices()">Load Services</button>
+</div>
+
+</div>
+
+<!-- REQUESTS -->
+<div id="requestsPage" class="page hidden">
 
 <div class="card-box">
 <h2>Request Service</h2>
@@ -260,8 +255,14 @@ design, and government application support services.
 <input id="requestMessage" placeholder="Message">
 
 <button onclick="sendRequest()">Submit Request</button>
+
 <p id="requestResult"></p>
 </div>
+
+</div>
+
+<!-- CONTACTS -->
+<div id="contactsPage" class="page hidden">
 
 <div class="card-box">
 <h2>Contact Information</h2>
@@ -269,9 +270,12 @@ design, and government application support services.
 <p>📱 WhatsApp / Phone: <b>0745806435</b></p>
 <p>📧 Email: <b>jw42205769@gmail.com</b></p>
 
-<p style="margin-top:10px;font-size:13px;color:gray;">
-Available for ICT support, applications & design services.
+<p style="margin-top:10px;color:gray;">
+Available 24/7 for ICT support
 </p>
+
+</div>
+
 </div>
 
 </div>
@@ -280,7 +284,7 @@ Available for ICT support, applications & design services.
 
 <script>
 
-/* SWITCH FORMS */
+/* AUTH SWITCH */
 function showForm(id){
 document.querySelectorAll(".form").forEach(f=>f.classList.remove("active"));
 document.getElementById(id).classList.add("active");
@@ -302,19 +306,19 @@ let confirm=document.getElementById("signupConfirm").value;
 let msg=document.getElementById("signupMsg");
 
 if(!name||!email||!pass||!confirm){
-msg.style.color="red";
 msg.innerText="Fill all fields";
+msg.style.color="red";
 return;
 }
 
 if(pass!==confirm){
-msg.style.color="red";
 msg.innerText="Passwords do not match";
+msg.style.color="red";
 return;
 }
 
-msg.style.color="green";
 msg.innerText="Account created successfully 🚀";
+msg.style.color="green";
 
 setTimeout(()=>{
 showForm("login");
@@ -328,6 +332,16 @@ function logout(){
 document.getElementById("auth").style.display="block";
 document.getElementById("dashboard").classList.add("hidden");
 showForm("login");
+}
+
+/* PAGE SWITCH */
+function showPage(page){
+
+document.querySelectorAll(".page").forEach(p=>{
+p.classList.add("hidden");
+});
+
+document.getElementById(page+"Page").classList.remove("hidden");
 }
 
 /* SERVICES */
@@ -346,16 +360,10 @@ document.getElementById("serviceList").innerHTML=`
 `;
 }
 
-function showHome(){
-document.getElementById("serviceList").innerHTML="Click Services";
-}
-
-function showRequests(){
-alert("Requests feature coming soon 🚀");
-}
-
+/* REQUEST */
 function sendRequest(){
-document.getElementById("requestResult").innerText="Request sent successfully 🚀";
+document.getElementById("requestResult").innerText=
+"Request sent successfully 🚀";
 }
 
 </script>
