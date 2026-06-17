@@ -32,12 +32,7 @@ box-shadow:0 10px 25px rgba(0,0,0,0.3);
 
 h2{text-align:center;margin-bottom:15px;}
 
-.form{
-display:none;
-flex-direction:column;
-margin-top:10px;
-}
-
+.form{display:none;flex-direction:column;margin-top:10px;}
 .form.active{display:flex;}
 
 input{
@@ -56,9 +51,7 @@ border-radius:6px;
 cursor:pointer;
 }
 
-button.submit:hover{
-background:#1d4ed8;
-}
+button.submit:hover{background:#1d4ed8;}
 
 /* DASHBOARD */
 .dashboard{
@@ -93,9 +86,7 @@ background:#ffdddd;
 color:red;
 }
 
-.main{
-flex:1;
-}
+.main{flex:1;}
 
 .card-box{
 background:white;
@@ -118,7 +109,6 @@ border-radius:15px;
 text-align:center;
 }
 
-/* PAGES */
 .page{display:block;}
 .hidden{display:none;}
 
@@ -127,169 +117,141 @@ text-align:center;
 .sidebar{width:100%;}
 .stats{grid-template-columns:1fr;}
 }
+
+/* FLOATING WHATSAPP BUTTON */
+.whatsapp-float{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25d366;
+color:white;
+width:55px;
+height:55px;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:28px;
+text-decoration:none;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+z-index:1000;
+}
 </style>
 
 </head>
 
 <body>
 
-<!-- ================= AUTH ================= -->
+<!-- AUTH -->
 <div id="auth" class="container">
 
-<!-- LOGIN -->
 <form id="login" class="form active">
-
 <h2>Login</h2>
-
 <input type="email" placeholder="Email">
 <input type="password" placeholder="Password">
-
 <button class="submit" type="button" onclick="login()">Login</button>
 
 <p style="text-align:center;margin-top:10px;color:#2563eb;cursor:pointer"
 onclick="showForm('forgot')">Forgot Password?</p>
 
-<p style="text-align:center;margin-top:15px;font-size:14px;">
-Don't have an account?
-<a style="color:#2563eb;cursor:pointer" onclick="showForm('signup')">Create Account</a>
+<p style="text-align:center;margin-top:15px;">
+Don't have account?
+<a style="color:#2563eb;cursor:pointer" onclick="showForm('signup')">Create</a>
 </p>
-
 </form>
 
-<!-- SIGNUP -->
 <form id="signup" class="form">
-
 <h2>Create Account</h2>
-
 <input id="signupName" placeholder="Full Name">
 <input id="signupEmail" placeholder="Email">
 <input id="signupPassword" placeholder="Password">
 <input id="signupConfirm" placeholder="Confirm Password">
-
 <button class="submit" type="button" onclick="signup()">Sign Up</button>
-
 <p id="signupMsg" style="text-align:center;margin-top:10px;"></p>
-
-<p style="text-align:center;margin-top:15px;font-size:14px;">
-Already have account?
-<a style="color:#2563eb;cursor:pointer" onclick="showForm('login')">Login</a>
-</p>
-
 </form>
 
-<!-- FORGOT -->
 <form id="forgot" class="form">
-
 <h2>Reset Password</h2>
-
 <input placeholder="Enter email">
-
-<button class="submit" type="button">Send Reset Link</button>
-
-<p style="text-align:center;margin-top:15px;color:#2563eb;cursor:pointer"
+<button class="submit" type="button">Send</button>
+<p style="text-align:center;color:#2563eb;cursor:pointer"
 onclick="showForm('login')">Back</p>
-
 </form>
 
 </div>
 
-<!-- ================= DASHBOARD ================= -->
+<!-- DASHBOARD -->
 <div id="dashboard" class="dashboard hidden">
 
+<!-- SIDEBAR -->
 <div class="sidebar">
-
 <h2>🚀 JoyTech</h2>
 
 <button onclick="showPage('home')">🏠 Home</button>
 <button onclick="showPage('services')">🛠 Services</button>
 <button onclick="showPage('requests')">📩 Requests</button>
-<button onclick="showPage('contacts')">📞 Contacts</button>
+<button onclick="showPage('admin')">📊 Admin</button>
 
 <button class="logout" onclick="logout()">Logout</button>
-
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
 <!-- HOME -->
 <div id="homePage" class="page">
-
 <div class="card-box">
 <h1>Welcome 👋</h1>
-<p>JoyTech ICT Services Dashboard</p>
+<p>JoyTech ICT Services</p>
 </div>
-
-<div class="stats">
-<div class="stat"><h2>8+</h2><p>Services</p></div>
-<div class="stat"><h2>24/7</h2><p>Support</p></div>
-<div class="stat"><h2>100%</h2><p>Reliable</p></div>
-</div>
-
 </div>
 
 <!-- SERVICES -->
 <div id="servicesPage" class="page hidden">
-
 <div class="card-box">
 <h2>Services</h2>
-
 <div id="serviceList">Click load services</div>
-
 <button onclick="loadServices()">Load Services</button>
 </div>
-
 </div>
 
 <!-- REQUESTS -->
 <div id="requestsPage" class="page hidden">
-
 <div class="card-box">
 <h2>Request Service</h2>
 
-<input id="requestName" placeholder="Your name">
-<input id="requestService" placeholder="Service needed">
+<input id="requestName" placeholder="Name">
+<input id="requestService" placeholder="Service">
 <input id="requestMessage" placeholder="Message">
 
-<button onclick="sendRequest()">Submit Request</button>
-
+<button onclick="sendRequest()">Submit</button>
 <p id="requestResult"></p>
 </div>
-
 </div>
 
-<!-- CONTACTS -->
-<div id="contactsPage" class="page hidden">
+<!-- ADMIN DASHBOARD -->
+<div id="adminPage" class="page hidden">
 
 <div class="card-box">
-<h2>Contact Information</h2>
+<h2>📊 Admin Dashboard (Requests)</h2>
 
-<p>📱 Phone:
-<a href="tel:0745806435" style="color:#2563eb;text-decoration:none;">
-<b>0745806435</b>
-</a>
-</p>
-
-<p>💬 WhatsApp:
-<a href="https://wa.me/254745806435" target="_blank" style="color:#2563eb;text-decoration:none;">
-Click to Chat
-</a>
-</p>
-
-<p>📧 Email:
-<a href="mailto:jw42205769@gmail.com" style="color:#2563eb;text-decoration:none;">
-<b>jw42205769@gmail.com</b>
-</a>
-</p>
-
-<p style="margin-top:10px;color:gray;">
-Available 24/7 for ICT support
-</p>
+<div id="adminList">
+No requests yet
+</div>
 
 </div>
 
 </div>
 
 </div>
+</div>
+
+<!-- WHATSAPP FLOAT BUTTON -->
+<a class="whatsapp-float"
+href="https://wa.me/254745806435"
+target="_blank">
+💬
+</a>
 
 <script>
 
@@ -299,11 +261,13 @@ document.querySelectorAll(".form").forEach(f=>f.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* LOGIN */
 function login(){
 document.getElementById("auth").style.display="none";
 document.getElementById("dashboard").classList.remove("hidden");
 }
+
+/* STORAGE FOR REQUESTS */
+let requests=[];
 
 /* SIGNUP */
 function signup(){
@@ -315,32 +279,28 @@ let confirm=document.getElementById("signupConfirm").value;
 let msg=document.getElementById("signupMsg");
 
 if(!name||!email||!pass||!confirm){
+msg.innerText="Fill all fields ❌";
 msg.style.color="red";
-msg.innerText="Please fill all fields";
 return;
 }
 
 if(pass!==confirm){
+msg.innerText="Passwords not matching ❌";
 msg.style.color="red";
-msg.innerText="Passwords do not match";
 return;
 }
 
+msg.innerText="Account created 🚀";
 msg.style.color="green";
-msg.innerText="Account created successfully 🚀";
 
-setTimeout(()=>{
-showForm("login");
-msg.innerText="";
-},1500);
-
+setTimeout(()=>showForm('login'),1500);
 }
 
 /* LOGOUT */
 function logout(){
 document.getElementById("auth").style.display="block";
 document.getElementById("dashboard").classList.add("hidden");
-showForm("login");
+showForm('login');
 }
 
 /* PAGE SWITCH */
@@ -352,39 +312,65 @@ document.getElementById(page+"Page").classList.remove("hidden");
 /* SERVICES */
 function loadServices(){
 document.getElementById("serviceList").innerHTML=`
-<ul style="line-height:28px;padding-left:18px;">
-<li>💻 Web Development</li>
-<li>🧠 Software Development</li>
-<li>🎨 Graphic Design</li>
-<li>🏛 KRA PIN Application</li>
-<li>📊 KRA Returns Filing</li>
-<li>🎓 KUCCPS Application</li>
-<li>💰 HELB Application</li>
-<li>📄 CV Writing</li>
+<ul>
+<li>Web Development</li>
+<li>Software Development</li>
+<li>Graphic Design</li>
+<li>KRA Applications</li>
+<li>HELB Applications</li>
+<li>CV Writing</li>
 </ul>
 `;
 }
 
-/* REQUEST FIXED */
+/* REQUEST + SAVE */
 function sendRequest(){
 
 let name=document.getElementById("requestName").value;
 let service=document.getElementById("requestService").value;
 let message=document.getElementById("requestMessage").value;
-let result=document.getElementById("requestResult");
 
 if(!name||!service||!message){
-result.style.color="red";
-result.innerText="Please fill all fields ❌";
+document.getElementById("requestResult").innerText="Fill all fields ❌";
+document.getElementById("requestResult").style.color="red";
 return;
 }
 
-result.style.color="green";
-result.innerText="Request sent successfully 🚀";
+let data = {name,service,message};
+requests.push(data);
 
+/* show success */
+document.getElementById("requestResult").innerText="Sent 🚀";
+document.getElementById("requestResult").style.color="green";
+
+/* clear */
 document.getElementById("requestName").value="";
 document.getElementById("requestService").value="";
 document.getElementById("requestMessage").value="";
+
+/* update admin */
+renderAdmin();
+}
+
+/* ADMIN VIEW */
+function renderAdmin(){
+
+let box=document.getElementById("adminList");
+
+if(requests.length===0){
+box.innerHTML="No requests yet";
+return;
+}
+
+box.innerHTML=requests.map((r,i)=>`
+<div style="padding:10px;border:1px solid #ddd;margin:10px 0;border-radius:8px;">
+<b>#${i+1}</b><br>
+Name: ${r.name}<br>
+Service: ${r.service}<br>
+Message: ${r.message}
+</div>
+`).join("");
+
 }
 
 </script>
