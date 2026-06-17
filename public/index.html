@@ -6,12 +6,7 @@
 <title>JoyTech Services</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
 
 body{
 background:#0f172a;
@@ -51,8 +46,6 @@ border-radius:6px;
 cursor:pointer;
 }
 
-button.submit:hover{background:#1d4ed8;}
-
 /* DASHBOARD */
 .dashboard{
 width:95%;
@@ -69,8 +62,6 @@ border-radius:20px;
 box-shadow:0 10px 25px #ddd;
 }
 
-.sidebar h2{color:#0d6efd;}
-
 .sidebar button{
 margin:10px 0;
 width:100%;
@@ -81,10 +72,7 @@ cursor:pointer;
 background:#eef4ff;
 }
 
-.sidebar button.logout{
-background:#ffdddd;
-color:red;
-}
+.sidebar button.logout{background:#ffdddd;color:red;}
 
 .main{flex:1;}
 
@@ -118,8 +106,8 @@ text-align:center;
 .stats{grid-template-columns:1fr;}
 }
 
-/* FLOATING WHATSAPP BUTTON */
-.whatsapp-float{
+/* WHATSAPP */
+.whatsapp{
 position:fixed;
 bottom:20px;
 right:20px;
@@ -129,12 +117,10 @@ width:55px;
 height:55px;
 border-radius:50%;
 display:flex;
-justify-content:center;
 align-items:center;
-font-size:28px;
+justify-content:center;
+font-size:26px;
 text-decoration:none;
-box-shadow:0 5px 15px rgba(0,0,0,0.3);
-z-index:1000;
 }
 </style>
 
@@ -147,35 +133,24 @@ z-index:1000;
 
 <form id="login" class="form active">
 <h2>Login</h2>
-<input type="email" placeholder="Email">
-<input type="password" placeholder="Password">
+<input placeholder="Email">
+<input placeholder="Password">
+
 <button class="submit" type="button" onclick="login()">Login</button>
 
 <p style="text-align:center;margin-top:10px;color:#2563eb;cursor:pointer"
-onclick="showForm('forgot')">Forgot Password?</p>
-
-<p style="text-align:center;margin-top:15px;">
-Don't have account?
-<a style="color:#2563eb;cursor:pointer" onclick="showForm('signup')">Create</a>
-</p>
+onclick="showForm('signup')">Create Account</p>
 </form>
 
 <form id="signup" class="form">
-<h2>Create Account</h2>
-<input id="signupName" placeholder="Full Name">
-<input id="signupEmail" placeholder="Email">
-<input id="signupPassword" placeholder="Password">
-<input id="signupConfirm" placeholder="Confirm Password">
-<button class="submit" type="button" onclick="signup()">Sign Up</button>
-<p id="signupMsg" style="text-align:center;margin-top:10px;"></p>
-</form>
+<h2>Signup</h2>
+<input id="s1" placeholder="Name">
+<input id="s2" placeholder="Email">
+<input id="s3" placeholder="Password">
+<input id="s4" placeholder="Confirm">
 
-<form id="forgot" class="form">
-<h2>Reset Password</h2>
-<input placeholder="Enter email">
-<button class="submit" type="button">Send</button>
-<p style="text-align:center;color:#2563eb;cursor:pointer"
-onclick="showForm('login')">Back</p>
+<button class="submit" type="button" onclick="signup()">Create</button>
+<p id="msg"></p>
 </form>
 
 </div>
@@ -183,194 +158,132 @@ onclick="showForm('login')">Back</p>
 <!-- DASHBOARD -->
 <div id="dashboard" class="dashboard hidden">
 
-<!-- SIDEBAR -->
 <div class="sidebar">
+
 <h2>🚀 JoyTech</h2>
 
-<button onclick="showPage('home')">🏠 Home</button>
-<button onclick="showPage('services')">🛠 Services</button>
-<button onclick="showPage('requests')">📩 Requests</button>
-<button onclick="showPage('admin')">📊 Admin</button>
+<button onclick="showPage('home')">Home</button>
+<button onclick="showPage('services')">Services</button>
+<button onclick="showPage('requests')">Requests</button>
 
-<button class="logout" onclick="logout()">Logout</button>
+<!-- ADMIN ONLY -->
+<div id="adminBtn" style="display:none;">
+<button onclick="showPage('admin')">Admin Dashboard</button>
 </div>
 
-<!-- MAIN -->
+<button class="logout" onclick="logout()">Logout</button>
+
+</div>
+
 <div class="main">
 
-<!-- HOME -->
 <div id="homePage" class="page">
 <div class="card-box">
 <h1>Welcome 👋</h1>
-<p>JoyTech ICT Services</p>
+<p>JoyTech Services</p>
 </div>
 </div>
 
-<!-- SERVICES -->
 <div id="servicesPage" class="page hidden">
 <div class="card-box">
 <h2>Services</h2>
-<div id="serviceList">Click load services</div>
+<div id="services"></div>
 <button onclick="loadServices()">Load Services</button>
 </div>
 </div>
 
-<!-- REQUESTS -->
 <div id="requestsPage" class="page hidden">
 <div class="card-box">
-<h2>Request Service</h2>
+<h2>Request</h2>
 
-<input id="requestName" placeholder="Name">
-<input id="requestService" placeholder="Service">
-<input id="requestMessage" placeholder="Message">
+<input id="n" placeholder="Name">
+<input id="p" placeholder="Service">
+<input id="m" placeholder="Message">
 
-<button onclick="sendRequest()">Submit</button>
-<p id="requestResult"></p>
+<button onclick="send()">Submit</button>
+<p id="r"></p>
 </div>
 </div>
 
-<!-- ADMIN DASHBOARD -->
+<!-- ADMIN -->
 <div id="adminPage" class="page hidden">
-
 <div class="card-box">
-<h2>📊 Admin Dashboard (Requests)</h2>
-
-<div id="adminList">
-No requests yet
+<h2>Admin Dashboard</h2>
+<div id="adminBox">No requests</div>
 </div>
-
-</div>
-
 </div>
 
 </div>
 </div>
 
-<!-- WHATSAPP FLOAT BUTTON -->
-<a class="whatsapp-float"
-href="https://wa.me/254745806435"
-target="_blank">
-💬
-</a>
+<!-- WHATSAPP -->
+<a class="whatsapp" href="https://wa.me/254745806435" target="_blank">💬</a>
 
 <script>
 
-/* AUTH */
-function showForm(id){
-document.querySelectorAll(".form").forEach(f=>f.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-}
+let requests=[];
 
+/* LOGIN */
 function login(){
 document.getElementById("auth").style.display="none";
 document.getElementById("dashboard").classList.remove("hidden");
 }
 
-/* STORAGE FOR REQUESTS */
-let requests=[];
-
 /* SIGNUP */
 function signup(){
+document.getElementById("msg").innerText="Account created 🚀";
+}
 
-let name=document.getElementById("signupName").value;
-let email=document.getElementById("signupEmail").value;
-let pass=document.getElementById("signupPassword").value;
-let confirm=document.getElementById("signupConfirm").value;
-let msg=document.getElementById("signupMsg");
+/* PAGE */
+function showPage(p){
+document.querySelectorAll(".page").forEach(x=>x.classList.add("hidden"));
+document.getElementById(p+"Page").classList.remove("hidden");
+}
 
-if(!name||!email||!pass||!confirm){
-msg.innerText="Fill all fields ❌";
-msg.style.color="red";
+/* SERVICES */
+function loadServices(){
+document.getElementById("services").innerHTML=
+"Web Dev<br>Software Dev<br>Graphic Design<br>KRA<br>HELB<br>CV Writing";
+}
+
+/* REQUEST */
+function send(){
+
+let name=n.value;
+let service=p.value;
+let msg=m.value;
+
+if(!name||!service||!msg){
+r.innerText="Fill all fields ❌";
 return;
 }
 
-if(pass!==confirm){
-msg.innerText="Passwords not matching ❌";
-msg.style.color="red";
-return;
+requests.push({name,service,msg});
+
+r.innerText="Sent 🚀";
+
+renderAdmin();
 }
 
-msg.innerText="Account created 🚀";
-msg.style.color="green";
-
-setTimeout(()=>showForm('login'),1500);
+/* ADMIN */
+function renderAdmin(){
+document.getElementById("adminBox").innerHTML=
+requests.map((x,i)=>
+`#${i+1} ${x.name} - ${x.service} - ${x.msg}`
+).join("<br>");
 }
 
 /* LOGOUT */
 function logout(){
 document.getElementById("auth").style.display="block";
 document.getElementById("dashboard").classList.add("hidden");
-showForm('login');
 }
 
-/* PAGE SWITCH */
-function showPage(page){
-document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
-document.getElementById(page+"Page").classList.remove("hidden");
-}
+/* ENABLE ADMIN (SECRET CODE) */
+let code = prompt("Enter access code (admin or user)");
 
-/* SERVICES */
-function loadServices(){
-document.getElementById("serviceList").innerHTML=`
-<ul>
-<li>Web Development</li>
-<li>Software Development</li>
-<li>Graphic Design</li>
-<li>KRA Applications</li>
-<li>HELB Applications</li>
-<li>CV Writing</li>
-</ul>
-`;
-}
-
-/* REQUEST + SAVE */
-function sendRequest(){
-
-let name=document.getElementById("requestName").value;
-let service=document.getElementById("requestService").value;
-let message=document.getElementById("requestMessage").value;
-
-if(!name||!service||!message){
-document.getElementById("requestResult").innerText="Fill all fields ❌";
-document.getElementById("requestResult").style.color="red";
-return;
-}
-
-let data = {name,service,message};
-requests.push(data);
-
-/* show success */
-document.getElementById("requestResult").innerText="Sent 🚀";
-document.getElementById("requestResult").style.color="green";
-
-/* clear */
-document.getElementById("requestName").value="";
-document.getElementById("requestService").value="";
-document.getElementById("requestMessage").value="";
-
-/* update admin */
-renderAdmin();
-}
-
-/* ADMIN VIEW */
-function renderAdmin(){
-
-let box=document.getElementById("adminList");
-
-if(requests.length===0){
-box.innerHTML="No requests yet";
-return;
-}
-
-box.innerHTML=requests.map((r,i)=>`
-<div style="padding:10px;border:1px solid #ddd;margin:10px 0;border-radius:8px;">
-<b>#${i+1}</b><br>
-Name: ${r.name}<br>
-Service: ${r.service}<br>
-Message: ${r.message}
-</div>
-`).join("");
-
+if(code==="admin"){
+document.getElementById("adminBtn").style.display="block";
 }
 
 </script>
