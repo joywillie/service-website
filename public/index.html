@@ -76,9 +76,7 @@ border-radius:20px;
 box-shadow:0 10px 25px #ddd;
 }
 
-.sidebar h2{
-color:#0d6efd;
-}
+.sidebar h2{color:#0d6efd;}
 
 .sidebar button{
 margin:10px 0;
@@ -120,7 +118,7 @@ border-radius:15px;
 text-align:center;
 }
 
-/* MULTI PAGE */
+/* PAGES */
 .page{display:block;}
 .hidden{display:none;}
 
@@ -198,7 +196,6 @@ onclick="showForm('login')">Back</p>
 <!-- ================= DASHBOARD ================= -->
 <div id="dashboard" class="dashboard hidden">
 
-<!-- SIDEBAR -->
 <div class="sidebar">
 
 <h2>🚀 JoyTech</h2>
@@ -212,7 +209,6 @@ onclick="showForm('login')">Back</p>
 
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
 <!-- HOME -->
@@ -267,8 +263,23 @@ onclick="showForm('login')">Back</p>
 <div class="card-box">
 <h2>Contact Information</h2>
 
-<p>📱 WhatsApp / Phone: <b>0745806435</b></p>
-<p>📧 Email: <b>jw42205769@gmail.com</b></p>
+<p>📱 Phone:
+<a href="tel:0745806435" style="color:#2563eb;text-decoration:none;">
+<b>0745806435</b>
+</a>
+</p>
+
+<p>💬 WhatsApp:
+<a href="https://wa.me/254745806435" target="_blank" style="color:#2563eb;text-decoration:none;">
+Click to Chat
+</a>
+</p>
+
+<p>📧 Email:
+<a href="mailto:jw42205769@gmail.com" style="color:#2563eb;text-decoration:none;">
+<b>jw42205769@gmail.com</b>
+</a>
+</p>
 
 <p style="margin-top:10px;color:gray;">
 Available 24/7 for ICT support
@@ -280,11 +291,9 @@ Available 24/7 for ICT support
 
 </div>
 
-</div>
-
 <script>
 
-/* AUTH SWITCH */
+/* AUTH */
 function showForm(id){
 document.querySelectorAll(".form").forEach(f=>f.classList.remove("active"));
 document.getElementById(id).classList.add("active");
@@ -306,19 +315,19 @@ let confirm=document.getElementById("signupConfirm").value;
 let msg=document.getElementById("signupMsg");
 
 if(!name||!email||!pass||!confirm){
-msg.innerText="Fill all fields";
 msg.style.color="red";
+msg.innerText="Please fill all fields";
 return;
 }
 
 if(pass!==confirm){
-msg.innerText="Passwords do not match";
 msg.style.color="red";
+msg.innerText="Passwords do not match";
 return;
 }
 
-msg.innerText="Account created successfully 🚀";
 msg.style.color="green";
+msg.innerText="Account created successfully 🚀";
 
 setTimeout(()=>{
 showForm("login");
@@ -336,11 +345,7 @@ showForm("login");
 
 /* PAGE SWITCH */
 function showPage(page){
-
-document.querySelectorAll(".page").forEach(p=>{
-p.classList.add("hidden");
-});
-
+document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
 document.getElementById(page+"Page").classList.remove("hidden");
 }
 
@@ -360,10 +365,26 @@ document.getElementById("serviceList").innerHTML=`
 `;
 }
 
-/* REQUEST */
+/* REQUEST FIXED */
 function sendRequest(){
-document.getElementById("requestResult").innerText=
-"Request sent successfully 🚀";
+
+let name=document.getElementById("requestName").value;
+let service=document.getElementById("requestService").value;
+let message=document.getElementById("requestMessage").value;
+let result=document.getElementById("requestResult");
+
+if(!name||!service||!message){
+result.style.color="red";
+result.innerText="Please fill all fields ❌";
+return;
+}
+
+result.style.color="green";
+result.innerText="Request sent successfully 🚀";
+
+document.getElementById("requestName").value="";
+document.getElementById("requestService").value="";
+document.getElementById("requestMessage").value="";
 }
 
 </script>
